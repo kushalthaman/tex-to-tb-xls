@@ -1,7 +1,7 @@
 ## This is a script to import .tex files formatted using the tb-to-tex library (https://github.com/rebeccaeverson/tb-to-tex/) into an .xlsx file. 
 
 import re 
-from import openpyxl import Workbook
+from openpyxl import Workbook
 
 columns = [“LX”,”HM”, “PH”, “PS”, “GE”, “XV”, “XE”, “SG”, “OP”, “TP”, “SE”, “VA”]
 

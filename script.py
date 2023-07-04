@@ -9,7 +9,7 @@ workbook = Workbook()
 script = workbook.active
 script.append(columns) 
 
-with open("d.tex", r) as file:
+with open("d.tex", 'r') as file:
 	text = file.read()
 	entries = text.split("\n")
 	for entry in entries:

@@ -3,23 +3,23 @@
 import re 
 from openpyxl import Workbook
 
-columns = [“LX”,”HM”, “PH”, “PS”, “GE”, “XV”, “XE”, “SG”, “OP”, “TP”, “SE”, “VA”]
+columns = ["LX","HM", "PH", "PS", "GE", "XV", "XE", "SG", "OP", "TP", "SE", "VA"]
 
 workbook = Workbook()
 script = workbook.active
 script.append(columns) 
 
-with open(“d.tex”, r) as file:
+with open("d.tex", r) as file:
 	text = file.read()
-	entries = text.split(“\n”)
+	entries = text.split("\n")
       for entry in entries:
-		if entry.startswith(“\\tbLX”):
+		if entry.startswith("\\tbLX"):
 			if row in locals():
 				script.append(row)
 		row = [""]*len(columns)
 
 		for ctg, col in enumerate(columns):
-			entered_text = “\\tb” + col + “”
+			entered_text = "\\tb" + col + ""
 			doesMatch = re.search(entered_text, entry)
 			if doesMatch is not None: 
 				row[ctg] = match.group(1)
@@ -28,4 +28,4 @@ with open(“d.tex”, r) as file:
 if row in locals():
 script.append(row) ## if row variable exists, means that we’ve collected that row. This handles the last row.
 
-workbook.save(“output.xlsx”)
+workbook.save("output.xlsx")

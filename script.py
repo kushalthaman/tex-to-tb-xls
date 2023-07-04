@@ -23,9 +23,7 @@ def process_tex_to_excel(tex_filepath, xlsx_filepath):
         category_list = re.findall(pattern, data)
         
         for item in category_list:
-            LX, value = item.split('}', 1)
-            dictionary[LX][category] = value.strip('{} ')
-
+            dictionary[category][item] = item.strip()
     df = pd.DataFrame(dictionary).T
     df.to_excel(xlsx_filepath)
 

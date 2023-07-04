@@ -26,6 +26,6 @@ with open("d.tex", r) as file:
 
 
 if row in locals():
-script.append(row) ## if row variable exists, means that we’ve collected that row. This handles the last row.
+script.append(row)  
 
 workbook.save("output.xlsx")

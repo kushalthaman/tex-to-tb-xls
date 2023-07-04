@@ -10,21 +10,18 @@ def process_tex_to_excel(tex_filepath, xlsx_filepath):
     with open(tex_filepath, 'r', encoding='utf-8') as file:
         data = file.read().replace('\n', ' ')
 
-    pattern = re.compile(r'\\tbLX\{(.+?)\}')
-    LX_list = re.findall(pattern, data)
-
     dictionary = {}
-    for LX in LX_list:
-        dictionary[LX] = {}
 
-    categories = ["LX","HM", "PH", "PS", "GE", "XV", "XE", "SG", "OP", "TP", "SE", "VA"]
-    for category in categories:
-        pattern = re.compile(r'\\tb' + category + '\{(.+?)\}')
-        category_list = re.findall(pattern, data)
-        
-        for item in category_list:                        
-            LX, value = item.split('}', 1)
-            dictionary[LX][category] = item.strip()
+    pattern = re.compile(r'\\tb([a-zA-Z]+)\{(.+?)\}')
+    matches = re.findall(pattern, data)
+
+    for match in matches:
+        category, value = match
+        if category == "LX":
+            current_lexeme = value
+            dictionary[current_lexeme] = {}
+        elif current_lexeme:
+            dictionary[current_lexeme][category] = value
             
     df = pd.DataFrame(dictionary).T
     df.to_excel(xlsx_filepath)

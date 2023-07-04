@@ -17,14 +17,14 @@ def process_tex_to_excel(tex_filepath, xlsx_filepath):
     for LX in LX_list:
         dictionary[LX] = {}
 
-    categories = ['LX', 'HM', 'PH', 'PS', 'GE', 'OP', 'TP', 'PD', 'SE', 'VA', 'XV', 'XE', 'ex']
+    categories = ["LX","HM", "PH", "PS", "GE", "XV", "XE", "SG", "OP", "TP", "SE", "VA"]
     for category in categories:
         pattern = re.compile(r'\\tb' + category + '\{(.+?)\}')
         category_list = re.findall(pattern, data)
         
         for item in category_list:                        
             LX, value = item.split('}', 1)
-            dictionary[category][item] = item.strip()
+            dictionary[LX][category] = value.strip('{} ')
             
     df = pd.DataFrame(dictionary).T
     df.to_excel(xlsx_filepath)

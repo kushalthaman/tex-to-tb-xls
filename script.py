@@ -27,6 +27,6 @@ def process_tex_to_excel(tex_filepath, xlsx_filepath):
             dictionary[LX][category] = value.strip('{} ')
 
     df = pd.DataFrame(dictionary).T
-    df.to_excel(/Users/kushalthaman/Downloads/)
+    df.to_excel(xlsx_filepath)
 
 process_tex_to_excel('d.tex', 'd.xlsx')

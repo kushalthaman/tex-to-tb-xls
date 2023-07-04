@@ -2,30 +2,31 @@
 
 import re 
 from openpyxl import Workbook
+import pandas as pd
 
 columns = ["LX","HM", "PH", "PS", "GE", "XV", "XE", "SG", "OP", "TP", "SE", "VA"]
 
-workbook = Workbook()
-script = workbook.active
-script.append(columns) 
+def process_tex_to_excel(tex_filepath, xlsx_filepath):
+    with open(tex_filepath, 'r', encoding='utf-8') as file:
+        data = file.read().replace('\n', ' ')
 
-with open("d.tex", 'r') as file:
-	text = file.read()
-	entries = text.split("\n")
-	for entry in entries:
-		if entry.startswith("\\tbLX"):
-			if row in locals():
-				script.append(row)
-		row = [""]*len(columns)
-		for ctg, col in enumerate(columns):
-			entered_text = "\\tb" + col + ""
-			doesMatch = re.search(entered_text, entry)
-			if doesMatch is not None: 
-				row[ctg] = match.group(1)
+    pattern = re.compile(r'\\tbLX\{(.+?)\}')
+    LX_list = re.findall(pattern, data)
 
+    dictionary = {}
+    for LX in LX_list:
+        dictionary[LX] = {}
 
+    categories = ['LX', 'HM', 'PH', 'PS', 'GE', 'OP', 'TP', 'PD', 'SE', 'VA', 'XV', 'XE', 'ex']
+    for category in categories:
+        pattern = re.compile(r'\\tb' + category + '\{(.+?)\}')
+        category_list = re.findall(pattern, data)
+        
+        for item in category_list:
+            LX, value = item.split('}', 1)
+            dictionary[LX][category] = value.strip('{} ')
 
-if row in locals():
-	script.append(row)  
+    df = pd.DataFrame(dictionary).T
+    df.to_excel(/Users/kushalthaman/Downloads/)
 
-workbook.save("output.xlsx")
+process_tex_to_excel('d.tex', 'd.xlsx')

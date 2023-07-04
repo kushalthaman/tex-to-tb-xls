@@ -12,17 +12,17 @@ script.append(columns)
 with open("d.tex", r) as file:
 	text = file.read()
 	entries = text.split("\n")
-      for entry in entries:
+	for entry in entries:
 		if entry.startswith("\\tbLX"):
 			if row in locals():
 				script.append(row)
 		row = [""]*len(columns)
-
 		for ctg, col in enumerate(columns):
 			entered_text = "\\tb" + col + ""
 			doesMatch = re.search(entered_text, entry)
 			if doesMatch is not None: 
 				row[ctg] = match.group(1)
+
 
 
 if row in locals():

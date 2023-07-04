@@ -26,6 +26,6 @@ with open("d.tex", r) as file:
 
 
 if row in locals():
-script.append(row)  
+	script.append(row)  
 
 workbook.save("output.xlsx")

@@ -19,7 +19,7 @@ patterns = {
     'VA': r'\\tbVA\{(.*?)\}',
     'SE': r'\\tbSN \\tbGE\{(.*?)\}',
 }
-
+sense = None
 rows_list = [] # list to hold all rows 
 row_dict = {} # for the current row 
 with open('d.tex', 'r') as file:

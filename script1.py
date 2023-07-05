@@ -6,6 +6,9 @@ import pandas as pd
 columns =  ["LX","HM", "PH", "PS", "GE", "XV", "XE", "SG", "OP", "TP", "SE", "VA"]
 
 data = []
+row_list = [] # list to hold all rows 
+row_dict = {} # for the current row 
+
 with open('d.tex', 'r') as file:
     lines = file.readlines()
     for line in lines:

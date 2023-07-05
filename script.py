@@ -27,7 +27,7 @@ with open('d.tex', 'r') as file:
     for line in lines:
         line = line.strip()
         if line.startswith('%') or line == '':
-            continue  # we want to skip over lines that start with %, as well as lines that are empty (that start with '') 
+            continue  # we want to skip over lines that start with %, as well as lines that are empty (that start with ''). Alternatively we can say if not line.startswith('\tbLX'). 
         
         for tag, pattern in patterns.items():
             match = re.search(pattern, line)

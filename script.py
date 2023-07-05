@@ -28,17 +28,33 @@ with open('d.tex', 'r') as file:
         line = line.strip()
         if line.startswith('%') or line == '':
             continue  # we want to skip over lines that start with %, as well as lines that are empty (that start with ''). Alternatively we can say if not line.startswith('\tbLX'). 
-        
         for tag, pattern in patterns.items():
             match = re.search(pattern, line)
             if match:
                 if tag == 'LX' and row_dict:
+                    if sense:
+                        row_dict.update(sense)
+                        sense = None
                     rows_list.append(row_dict)
-                    row_dict = {}
-                row_dict[tag] = match.group(1)
+                    row_dict = {tag: match.group(1)}
+                else:
+                    row_dict[tag] = match.group(1)
+
+        if '\\tbSN' in line:
+            if sense:
+                row_dict.update(sense)
+                rows_list.append(row_dict)
+            sense = {'GE': '', 'XV': '', 'XE': ''}
+
+        for tag in ['GE', 'XV', 'XE']:
+            match = re.search(fr'\\tb{tag}\{{(.*?)\}}', line)
+            if match and sense is not None:
+                sense[tag] = match.group(1)
 
 if row_dict:
+    if sense:
+        row_dict.update(sense)
     rows_list.append(row_dict)
-    
-df = pd.DataFrame(rows_list, columns=columns)
-df.to_excel('d.xlsx', index=False)
+
+df = pd.DataFrame(rows_list)
+df.to_excel('d1.xlsx', index=False)

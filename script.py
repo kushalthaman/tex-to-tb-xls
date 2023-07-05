@@ -20,7 +20,7 @@ patterns = {
     'SE': r'\\tbSN \\tbGE\{(.*?)\}',
 }
 
-row_list = [] # list to hold all rows 
+rows_list = [] # list to hold all rows 
 row_dict = {} # for the current row 
 with open('d.tex', 'r') as file:
     lines = file.readlines()

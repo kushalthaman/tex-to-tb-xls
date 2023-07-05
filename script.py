@@ -3,6 +3,8 @@
 import re
 import pandas as pd
 
+columns =  ["LX","HM", "PH", "PS", "GE", "XV", "XE", "SG", "OP", "TP", "SE", "VA"]
+
 data = []
 with open('d.tex', 'r') as file:
     lines = file.readlines()

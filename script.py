@@ -16,9 +16,11 @@ patterns = {
     'SG': r'\\tbSG\{(.*?)\}',
     'OP': r'\\tbOP\{(.*?)\}',
     'TP': r'\\tbTP\{(.*?)\}',
+    'PD': r'\\tbPD\{(.*?)\}',
     'VA': r'\\tbVA\{(.*?)\}',
     'SE': r'\\tbSN \\tbGE\{(.*?)\}',
 }
+
 sense = None
 rows_list = [] # list to hold all rows 
 row_dict = {} # for the current row 
@@ -57,4 +59,4 @@ if row_dict:
     rows_list.append(row_dict)
 
 df = pd.DataFrame(rows_list)
-df.to_excel('d1.xlsx', index=False)
+df.to_excel('d4.xlsx', index=False)

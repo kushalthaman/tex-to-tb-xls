@@ -24,7 +24,7 @@ patterns = {
 sense = None
 rows_list = [] # list to hold all rows 
 row_dict = {} # for the current row 
-with open('b.tex', 'r') as file:
+with open('d.tex', 'r') as file:
     lines = file.readlines()
     for line in lines:
         line = line.strip()
@@ -59,4 +59,4 @@ if row_dict:
     rows_list.append(row_dict)
 
 df = pd.DataFrame(rows_list)
-df.to_excel('b.xlsx', index=False)
+df.to_excel('d.xlsx', index=False)

@@ -3,7 +3,7 @@
 import re
 import pandas as pd
 
-columns =  ["LX","HM", "PH", "PS", "GE", "XV", "XE", "SG", "OP", "TP", "SE", "VA"]
+columns =  ["LX","HM", "PH", "PS", "GE", "XV", "XE", "SG", "OP", "TP", "PD", "SE", "VA"]
 
 patterns = {
     'LX': r'\\tbLX\{(.*?)\}',

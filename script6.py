@@ -24,7 +24,7 @@ patterns = {
 sense = None
 rows_list = [] # list to hold all rows 
 row_dict = {} # for the current row 
-with open('d.tex', 'r') as file:
+with open('a.tex', 'r') as file:
     lines = file.readlines()
     for line in lines:
         line = line.strip()

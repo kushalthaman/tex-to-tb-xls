@@ -3,6 +3,7 @@
 import pandas as pd
 
 #cons_list = ["h", "n", "ŋ", "b", "r", "d", "k", "s", "t", "f", "g", "z", "m", "l", "p", "w", "y", "ʧ", "ɲ", "v", "g", "ʣ"]
+
 all_cons = "hnŋbrdkstfgzmlpwyʧɲvgʣ"
 all_vowels = "aáàâãạåeéèêɛiíìîɪoóòôõɔuúùûʊ"
 # extra_chars = "- "

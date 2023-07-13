@@ -128,5 +128,8 @@ df["Syl Count"] = df["PH + Syl"].apply(count_syl)
 
 df["Excluded"] = df["PH"].apply(is_exclude)
 
+df["Nasal + Syl"], df["Tone + Syl"] = zip(*df["PH + Syl"].apply(syllabify_nasal_and_tone, do_syllabify=True))
+
+df["Nasal"], df["Tone"] = zip(*df["PH"].apply(syllabify_nasal_and_tone, do_syllabify=False))
 
 df.to_excel("DagaareDict.xlsx", index = False)

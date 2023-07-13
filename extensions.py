@@ -138,17 +138,17 @@ df = pd.read_excel("DagaareDict.xlsx")
 
 df["PH"] = df["PH"].astype(str)
 
+df["Excluded"] = df["PH"].apply(is_exclude)
+
 df["PH + Syl"] = df["PH"].apply(syllabify)
+
+df["Syl Count"] = df["PH + Syl"].apply(count_syl)
 
 df["Vowels"] = df["PH"].apply(vowelize)
 
 df["Vowels + Syl"] = df["PH + Syl"].apply(vowelize)
 
 df["ATR"] = df["Vowels"].apply(ATR_val)
-
-df["Syl Count"] = df["PH + Syl"].apply(count_syl)
-
-df["Excluded"] = df["PH"].apply(is_exclude)
 
 df["Tones"] = df["PH + Syl"].apply(tonalize, do_syllabify=False)
 

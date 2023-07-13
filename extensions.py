@@ -90,6 +90,12 @@ def tone(word):
             tonalized_word += char
     return tonalized_word
 
+def syllabify_nasal_and_tone(word, do_syllabify):
+    word = syllabify(word) if do_syllabify else word
+    nasal_word = nasalization(word)
+    tone_word = tone(word)
+    return nasal_word, tone_word
+
 def ATR_val(vowels):
     pATR = False
     nATR = False

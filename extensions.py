@@ -1,6 +1,7 @@
 ## Creates vowel, ATR, excluded, PH + Syl, Syl Count, Nasality, Tone, Tone + Syl
 
 import pandas as pd
+import unicodedata
 
 #cons_list = ["h", "n", "ŋ", "b", "r", "d", "k", "s", "t", "f", "g", "z", "m", "l", "p", "w", "y", "ʧ", "ɲ", "v", "g", "ʣ"]
 
@@ -81,19 +82,20 @@ def nasalization(word):
 
 def tone(syllabified_word):
     tonalized_word = ""
-    previous_char = None
-    previous_tone = None
     last_tone = None
     syllable_tone = None
+
+    syllabified_word = unicodedata.normalize('NFC', syllabified_word)
 
     for char in syllabified_word:
         if char == ".":
             tonalized_word += char
-            last_tone = None  
-            syllable_tone = None  
+            last_tone = None   
+            syllable_tone = None   
         elif char in all_vowels:   
             if char in tones:
                 current_tone = tones[char]
+                
                 if syllable_tone is None or syllable_tone != current_tone:
                     tonalized_word += current_tone
                     last_tone = current_tone

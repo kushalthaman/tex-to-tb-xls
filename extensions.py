@@ -84,11 +84,13 @@ def tone(word):
     for char in word:
         if char in tones:
             tonalized_word += tones[char]
-        elif char.lower() in all_vowels:
-            tonalized_word += "M"  # M for Mid tone
-        else:
-            tonalized_word += char
     return tonalized_word
+
+def tone_and_vowelize(word, do_syllabify):
+    word = syllabify(word) if do_syllabify else word
+    vowels = vowelize(word)
+    tone_word = tone(vowels)
+    return tone_word
 
 def syllabify_nasal_and_tone(word, do_syllabify):
     word = syllabify(word) if do_syllabify else word
@@ -127,6 +129,10 @@ df["PH + Syl"] = df["PH"].apply(syllabify)
 df["Syl Count"] = df["PH + Syl"].apply(count_syl)
 
 df["Excluded"] = df["PH"].apply(is_exclude)
+
+df["Tone + Syl"] = df["PH + Syl"].apply(tone_and_vowelize, do_syllabify=True)
+
+df["Tone"] = df["PH"].apply(tone_and_vowelize, do_syllabify=False)
 
 df["Nasal + Syl"], df["Tone + Syl"] = zip(*df["PH + Syl"].apply(syllabify_nasal_and_tone, do_syllabify=True))
 

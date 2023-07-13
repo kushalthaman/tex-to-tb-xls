@@ -12,6 +12,7 @@ digraphs = ["gb", "kp", "ŋm", "dz"]
 pATR_list = "eiou"
 nATR_list = "aɛɪɔʊ"
 dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
+tones = {"á":"H", "é":"H", "í":"H", "ó":"H", "ú" : "H", "à":"L", "è":"L", "ì":"L", "ò":"L", "ù":"L", "â":"HL", "ê":"HL", "ô" : "HL", "û": "HL", "ǎ":"LH"}
 
 def first_seg(ind, word):
     if ind+1 < len(word) and word[ind] + word[ind+1] in digraphs:

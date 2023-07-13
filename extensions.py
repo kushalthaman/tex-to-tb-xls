@@ -96,10 +96,10 @@ def tonalize(syllabified_word, do_syllabify):
             tonalized_word += tones[char]
             last_tone = tones[char]
 
-    if do_syllabify:
-        return tonalized_word
-    
-    return tonalized_word.strip('.')
+    if not do_syllabify:
+        tonalized_word = tonalized_word.replace(".", "")
+        
+    return tonalized_word
  
 """
 def tone_and_vowelize(word, do_syllabify):
@@ -150,7 +150,7 @@ df["Syl Count"] = df["PH + Syl"].apply(count_syl)
 
 df["Excluded"] = df["PH"].apply(is_exclude)
 
-df["Tones"] = df["PH"].apply(tonalize, do_syllabify=False)
+df["Tones"] = df["PH + Syl"].apply(tonalize, do_syllabify=False)
 
 df["Tones + Syl"] = df["PH + Syl"].apply(tonalize, do_syllabify=True)
 

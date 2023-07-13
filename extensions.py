@@ -79,15 +79,19 @@ def nasalization(word):
             return "N"
     return "O"
 
+
+
 def tone(syllabified_word):
     tonalized_word = ""
-    for char in syllabified_word:
+    for ind, char in enumerate(syllabified_word):
         if char in all_vowels:   
             if char in tones:
                 tonalized_word += tones[char]
         elif char == ".":   
-            tonalized_word += char
+            if len(tonalized_word) > 0 and tonalized_word[-1] != ".":  
+                tonalized_word += char
     return tonalized_word
+
 
 def tone_and_vowelize(word, do_syllabify):
     word = syllabify(word) if do_syllabify else word

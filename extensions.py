@@ -86,6 +86,7 @@ def tone(syllabified_word):
     syllable_tone = None
 
     syllabified_word = unicodedata.normalize('NFC', syllabified_word)
+    syllabified_word = unicodedata.normalize('NFD', syllabified_word)
 
     for char in syllabified_word:
         if char == ".":

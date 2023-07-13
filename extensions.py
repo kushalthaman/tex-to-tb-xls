@@ -7,7 +7,7 @@ import pandas as pd
 all_cons = "hnŋbrdkstfgzmlpwyʧɲvgʣ"
 all_vowels = "aáàâãạåeéèêɛiíìîɪoóòôõɔuúùûʊ"
 # extra_chars = "- "
-exclude_list = ",\\Dạå᷈" ĩ̀ 
+exclude_list = "\\Dạå᷈"
 digraphs = ["gb", "kp", "ŋm", "dz"]
 pATR_list = "eiou"
 nATR_list = "aɛɪɔʊ"

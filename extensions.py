@@ -1,4 +1,4 @@
-## Creates vowel, ATR, excluded, PH + Syl, Syl Count
+## Creates vowel, ATR, excluded, PH + Syl, Syl Count, Nasality, Tone, Tone + Syl
 
 import pandas as pd
 
@@ -79,8 +79,6 @@ def nasalization(word):
             return "N"
     return "O"
 
-
-
 def tone(syllabified_word):
     tonalized_word = ""
     for ind, char in enumerate(syllabified_word):
@@ -90,8 +88,7 @@ def tone(syllabified_word):
         elif char == ".":   
             if len(tonalized_word) > 0 and tonalized_word[-1] != ".":  
                 tonalized_word += char
-    return tonalized_word
-
+    return tonalized_word.strip('.')
 
 def tone_and_vowelize(word, do_syllabify):
     word = syllabify(word) if do_syllabify else word

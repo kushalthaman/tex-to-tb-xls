@@ -84,14 +84,20 @@ def tone(syllabified_word):
     previous_char = None
     previous_tone = None
     last_tone = None
-    for ind, char in enumerate(syllabified_word):
-        if char in all_vowels:   
+    syllable_tone = None
+
+    for char in syllabified_word:
+        if char == ".":
+            tonalized_word += char
+            last_tone = None  
+            syllable_tone = None  
+        elif char in all_vowels:   
             if char in tones:
                 current_tone = tones[char]
-                tonalized_word += current_tone
-        elif char == ".":   
-            if len(tonalized_word) > 0 and tonalized_word[-1] != ".":  
-                tonalized_word += char
+                if syllable_tone is None or syllable_tone != current_tone:
+                    tonalized_word += current_tone
+                    last_tone = current_tone
+                    syllable_tone = current_tone
     return tonalized_word.strip('.')
 
 def tone_and_vowelize(word, do_syllabify):

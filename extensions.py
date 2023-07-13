@@ -13,7 +13,7 @@ pATR_list = "eiou"
 nATR_list = "aɛɪɔʊ"
 dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
 tones = {"á":"H", "é":"H", "í":"H", "ó":"H", "ú" : "H", "ɛ̀": "L", "ɪ̀" : "L", "ɪ́" : "H", "ʊ́" : "H", "ʊ̀" : "L", "à":"L", "è":"L", "ì":"L", "ò":"L", "ù":"L", "â":"HL", "ê":"HL", "ô" : "HL", "û": "HL", "ǎ":"LH"}
-nasal_chars = ["~", "ã", "õ", "ĩ̀"]
+nasal_chars = ["~", "ã", "õ", "ĩ"]
 
 def first_seg(ind, word):
     if ind+1 < len(word) and word[ind] + word[ind+1] in digraphs:

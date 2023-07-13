@@ -88,9 +88,7 @@ def tone(syllabified_word):
         if char in all_vowels:   
             if char in tones:
                 current_tone = tones[char]
-                if last_tone is None or last_tone != current_tone:
-                    tonalized_word += current_tone
-                    last_tone = current_tone
+                tonalized_word += current_tone
         elif char == ".":   
             if len(tonalized_word) > 0 and tonalized_word[-1] != ".":  
                 tonalized_word += char

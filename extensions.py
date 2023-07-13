@@ -73,6 +73,12 @@ def vowelize(word):
     vowels = [accent_strip(char) for char in word if char.lower() in all_vowels]
     return "".join(vowels)
 
+def get_nasalization(word):
+    for char in word:
+        if char in nasal_chars:
+            return "N"
+    return "O"
+
 def ATR_val(vowels):
     pATR = False
     nATR = False

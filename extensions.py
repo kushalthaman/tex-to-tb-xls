@@ -7,7 +7,7 @@ import pandas as pd
 all_cons = "hnŋbrdkstfgzmlpwyʧɲvgʣ"
 all_vowels = "aáàâãạåeéèêɛiíìîɪoóòôõɔuúùûʊ"
 # extra_chars = "- "
-exclude_list = ",\\Dạå᷈"
+exclude_list = ",\\Dạå᷈" ĩ̀ 
 digraphs = ["gb", "kp", "ŋm", "dz"]
 pATR_list = "eiou"
 nATR_list = "aɛɪɔʊ"
@@ -84,7 +84,9 @@ def tone(syllabified_word):
     for ind, char in enumerate(syllabified_word):
         if char in all_vowels:   
             if char in tones:
-                tonalized_word += tones[char]
+                if not (previous_char == tones[char] and (ind == 0 or syllabified_word[ind - 1] != '.')):
+                    tonalized_word += tones[char]
+                    previous_char = tones[char]
         elif char == ".":   
             if len(tonalized_word) > 0 and tonalized_word[-1] != ".":  
                 tonalized_word += char

@@ -1,7 +1,6 @@
 ## Creates vowel, ATR, excluded, PH + Syl, Syl Count, Nasality, Tone, Tone + Syl
 
 import pandas as pd
-import unicodedata
 
 #cons_list = ["h", "n", "ŋ", "b", "r", "d", "k", "s", "t", "f", "g", "z", "m", "l", "p", "w", "y", "ʧ", "ɲ", "v", "g", "ʣ"]
 
@@ -13,8 +12,8 @@ digraphs = ["gb", "kp", "ŋm", "dz"]
 pATR_list = "eiou"
 nATR_list = "aɛɪɔʊ"
 dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
-tones = {"á":"H", "é":"H", "í":"H", "ó":"H", "ú" : "H", "ɛ̀": "L", "ɛ́" : "H", "ɪ̀" : "L", "ɪ́" : "H", "ʊ́" : "H", "ʊ̀" : "L", "à":"L", "è":"L", "ì":"L", "ò":"L", "ù":"L", "â":"HL", "ê":"HL", "ô" : "HL", "û": "HL", "ǎ":"LH", "`": "L", "◌́": "H", "◌̀" : "L", "´": "H"}
-nasal_chars = ["~", "ã", "õ", "ĩ"]
+tones = {"á":"H", "é":"H", "í":"H", "ó":"H", "ú" : "H", "à":"L", "è":"L", "ì":"L", "ò":"L", "ù":"L", "â":"HL", "ê":"HL", "ô" : "HL", "û": "HL", "́":"H", "̀":"L", "̂":"HL", "̌":"LH"}
+nasal_chars = ["̃", "ã"]
 
 def first_seg(ind, word):
     if ind+1 < len(word) and word[ind] + word[ind+1] in digraphs:
@@ -48,7 +47,6 @@ def syllabify(word):  # not sensible for excluded words
     result = ""
     prev_seg = None
 
-    # if this is 
     for ind, char in enumerate(word):
         if not (prev_seg == None or prev_seg + char in digraphs):
             prev_stripped = accent_strip(prev_seg)
@@ -71,50 +69,53 @@ def count_syl(word):
     return word.count(".") + 1
 
 def vowelize(word):
-    vowels = [accent_strip(char) for char in word if char.lower() in all_vowels]
+    vowels = [accent_strip(char) for char in word if char.lower() in all_vowels or char == "."]
     return "".join(vowels)
 
-def nasalization(word):
+# nasal_chars = ["̃", "ã"]
+def nasalize(word):
+    result = ""
     for char in word:
-        if char in nasal_chars:
-            return "N"
-    return "O"
+        if char == "̃":
+            result = result [:-1] + "N"
+        elif char in all_vowels:
+            result += "O"
+        elif char == ".":
+            result += "."
+    return result
 
-def tone(syllabified_word):
+def tonalize(syllabified_word, do_syllabify):
     tonalized_word = ""
     last_tone = None
-    syllable_tone = None
-
-    syllabified_word = unicodedata.normalize('NFC', syllabified_word)
-    syllabified_word = unicodedata.normalize('NFD', syllabified_word)
 
     for char in syllabified_word:
         if char == ".":
             tonalized_word += char
-            last_tone = None   
-            syllable_tone = None   
-        elif char in all_vowels:   
-            if char in tones:
-                current_tone = tones[char]
-                
-                if syllable_tone is None or syllable_tone != current_tone:
-                    tonalized_word += current_tone
-                    last_tone = current_tone
-                    syllable_tone = current_tone
-    return tonalized_word.strip('.')
+            last_tone = None  
+        elif char in tones and last_tone != tones[char]:
+            tonalized_word += tones[char]
+            last_tone = tones[char]
 
+    if do_syllabify:
+        return tonalized_word
+    
+    return tonalized_word.strip('.')
+ 
+"""
 def tone_and_vowelize(word, do_syllabify):
     word = syllabify(word) if do_syllabify else word
     vowels = vowelize(word)
     tone_word = tone(vowels)
     return tone_word
-
+"""
+"""    
 def syllabify_nasal_and_tone(word, do_syllabify):
     word = syllabify(word) if do_syllabify else word
     nasal_word = nasalization(word)
     tone_word = tone(word)
     return nasal_word, tone_word
-
+"""
+    
 def ATR_val(vowels):
     pATR = False
     nATR = False
@@ -137,22 +138,28 @@ df = pd.read_excel("DagaareDict.xlsx")
 
 df["PH"] = df["PH"].astype(str)
 
+df["PH + Syl"] = df["PH"].apply(syllabify)
+
 df["Vowels"] = df["PH"].apply(vowelize)
 
-df["ATR"] = df["Vowels"].apply(ATR_val)
+df["Vowels + Syl"] = df["PH + Syl"].apply(vowelize)
 
-df["PH + Syl"] = df["PH"].apply(syllabify)
+df["ATR"] = df["Vowels"].apply(ATR_val)
 
 df["Syl Count"] = df["PH + Syl"].apply(count_syl)
 
 df["Excluded"] = df["PH"].apply(is_exclude)
 
-df["Tone + Syl"] = df["PH + Syl"].apply(tone)
+df["Tones"] = df["PH"].apply(tonalize, do_syllabify=False)
 
-df["Tone"] = df["PH"].apply(tone_and_vowelize, do_syllabify=False)
+df["Tones + Syl"] = df["PH + Syl"].apply(tonalize, do_syllabify=True)
 
-df["Nasal + Syl"], df["Tone + Syl"] = zip(*df["PH + Syl"].apply(syllabify_nasal_and_tone, do_syllabify=True))
+df["Nasals"] = df["PH"].apply(nasalize)
 
-df["Nasal"], df["Tone"] = zip(*df["PH"].apply(syllabify_nasal_and_tone, do_syllabify=False))
+df["Nasals + Syl"] = df["PH + Syl"].apply(nasalize)
+
+# df["Nasal + Syl"], df["Tone + Syl"] = zip(*df["PH + Syl"].apply(syllabify_nasal_and_tone, do_syllabify=True))
+
+# df["Nasal"], df["Tone"] = zip(*df["PH"].apply(syllabify_nasal_and_tone, do_syllabify=False))
 
 df.to_excel("DagaareDict.xlsx", index = False)

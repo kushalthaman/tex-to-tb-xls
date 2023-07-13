@@ -81,6 +81,7 @@ def nasalization(word):
 
 def tone(syllabified_word):
     tonalized_word = ""
+    previous_char = None
     for ind, char in enumerate(syllabified_word):
         if char in all_vowels:   
             if char in tones:

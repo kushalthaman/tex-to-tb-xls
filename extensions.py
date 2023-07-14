@@ -136,12 +136,14 @@ def ATR_val(vowels):
 
 def syl_length(words):
     max_syl = 0
+    max_word = ""
     for word in words:
         syllables = word.split('.')
         for syllable in syllables:
             if len(syllable) > max_syl:
                 max_syl = len(syllable)
-    return max_syl
+                max_word = word
+    return max_syl, max_word
 
 
 df = pd.read_excel("DagaareDict.xlsx")

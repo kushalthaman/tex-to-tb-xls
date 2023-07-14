@@ -134,6 +134,16 @@ def ATR_val(vowels):
         return False
     return "error"
 
+def syl_length(words):
+    max_syl = 0
+    for word in words:
+        syllables = word.split('.')
+        for syllable in syllables:
+            if len(syllable) > max_syl:
+                max_syl = len(syllable)
+    return max_syl
+
+
 df = pd.read_excel("DagaareDict.xlsx")
 
 df["PH"] = df["PH"].astype(str)
@@ -163,3 +173,6 @@ df["Nasals + Syl"] = df["PH + Syl"].apply(nasalize)
 # df["Nasal"], df["Tone"] = zip(*df["PH"].apply(syllabify_nasal_and_tone, do_syllabify=False))
 
 df.to_excel("DagaareDict.xlsx", index = False)
+
+words = df["PH + Syl"].tolist()
+print(find_longest_syllable_length(words))

@@ -175,4 +175,4 @@ df["Nasals + Syl"] = df["PH + Syl"].apply(nasalize)
 df.to_excel("DagaareDict.xlsx", index = False)
 
 words = df["PH + Syl"].tolist()
-print(find_longest_syllable_length(words))
+print(syl_length(words))

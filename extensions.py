@@ -144,29 +144,8 @@ def syl_length(words):
                 max_syl = len(syllable)
                 max_word = word
     return max_syl, max_word
-    
-def find_second_longest_syllable_length(words):
-    longest_length = 0
-    second_longest_length = 0
-    longest_word = ""
-    second_longest_word = ""
 
-    for word in words:
-        syllables = word.split('.')
-        for syllable in syllables:
-            if len(syllable) > longest_length:
-                second_longest_length = longest_length
-                second_longest_word = longest_word
-
-                longest_length = len(syllable)
-                longest_word = word
-            elif len(syllable) > second_longest_length and len(syllable) != longest_length:
-                second_longest_length = len(syllable)
-                second_longest_word = word
-
-    return second_longest_length, second_longest_word
-
-
+# this function currently tracks length including unicode characters, so a good idea is to keep track of the top-n (for say n=30) longest syllables and manually check the longest syllable length from there.
 
 df = pd.read_excel("DagaareDict.xlsx")
 
@@ -199,7 +178,5 @@ df["Nasals + Syl"] = df["PH + Syl"].apply(nasalize)
 df.to_excel("DagaareDict.xlsx", index = False)
 
 words = df["PH + Syl"].tolist()
-length, word = find_second_longest_syllable_length(words)
-print(f"The second longest syllable length is {length}, found in the word: '{word}'")
 
 print(syl_length(words))

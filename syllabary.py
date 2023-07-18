@@ -21,13 +21,7 @@ def vowelize(word):
     vowels = [accent_strip(char) for char in word if char.lower() in all_vowels or char == "."]
     return "".join(vowels)
 
-"""
-def isolate_segments(word):
-    return [char for char in word if char in all_vowels + all_cons]
-"""
-
 def templatize(syl):
-    # segments = isolate_segments(syl)
     result = ""
     for char in syl:
         if char in all_vowels:
@@ -39,7 +33,7 @@ def templatize(syl):
 
 def make_syllabary(df, column):
     syllables = []
-    vowels = ["a","á","à","â","ã","ạ","å","a","e","é","è","ê","ɛ","i","í","ì","î","ɪ","o","ó","ò","ô","õ","ɔ","u","ú","ù","û","ʊ"]
+    # vowels = ["a","á","à","â","ã","ạ","å","a","e","é","è","ê","ɛ","i","í","ì","î","ɪ","o","ó","ò","ô","õ","ɔ","u","ú","ù","û","ʊ"]
 
     column_entries = df[column].astype(str)
 
@@ -62,7 +56,26 @@ def make_syllabary(df, column):
     
     return syllabary
 
+def print_templates(syllabary):
+    column_entries = syllabary["Template"].astype(str)
+
+    templates = {}
+
+    for template in column_entries:
+        if template not in templates:
+            templates[template] = 1
+        else:
+            templates[template] += 1
+
+    print(templates)
+
+
+
+
 df = pd.read_excel("DagaareDict.xlsx")
 syllabary = make_syllabary(df, column = "PH + Syl")
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
+
+print_templates(syllabary)
+
 syllabary.to_excel("DagaareSyllabary.xlsx", index=False)

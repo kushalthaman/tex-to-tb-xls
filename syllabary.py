@@ -9,6 +9,12 @@ def make_syllabary(df, column):
     
     syllabary = pd.DataFrame(syllables, columns=["syllable"])
     syllabary['Type Frequency'] = syllabary.groupby('syllable')['syllable'].transform('count')
+
+    def all_vowels(word):
+        return [vowel for vowel in vowels if vowel in word]
+
+    syllabary['Vowel'] = syllabary['syllable'].apply(all_vowels)
+        
     return syllabary
 
 df = pd.read_excel("DagaareDict.xlsx")

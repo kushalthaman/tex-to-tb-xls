@@ -50,8 +50,8 @@ def make_syllabary(df, column):
     repeated_vowels = [v + v for v in vowels_list] 
     long_vowels = repeated_vowels + dipthongs
     
-    def compute_syllable_weight(s):
-        return any(sub_s.endswith(tuple(consonants)) or sub_s.endswith(tuple(all_long_vowels)) for sub_s in s.split('.'))
+    def syllable_weight(s):
+        return any(sub_s.endswith(tuple(consonants_list)) or sub_s.endswith(tuple(long_vowels)) for sub_s in s.split('.'))
 
     syllabary = pd.DataFrame(syllables, columns=["Syllable", "Initial"])
     
@@ -63,7 +63,7 @@ def make_syllabary(df, column):
 
     syllabary["Template"] = syllabary["Syllable"].apply(templatize)
 
-    syllabary['Syllable Weight'] = syllabary['Syllable'].apply(compute_syllable_weight)
+    syllabary['Syllable Weight'] = syllabary['Syllable'].apply(syllable_weight)
     
     return syllabary
 

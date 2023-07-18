@@ -83,7 +83,7 @@ def print_templates(syllabary):
 
 
 df = pd.read_excel("DagaareDict.xlsx")
-syllabary = make_syllabary(df, column = "Syllable")
+syllabary = make_syllabary(df, column = "PH + Syl")
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
 
 print_templates(syllabary)

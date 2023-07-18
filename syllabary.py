@@ -2,11 +2,13 @@ import pandas as pd
 
 def make_syllabary(df, column):
     syllables = []
+    vowels = ["a","á","à","â","ã","ạ","å","a","e","é","è","ê","ɛ","i","í","ì","î","ɪ","o","ó","ò","ô","õ","ɔ","u","ú","ù","û","ʊ"]
+    
     for word in df[column].tolist():
         syllables.extend(word.split('.'))
     
     syllabary = pd.DataFrame(syllables, columns=["syllable"])
-    syllabary['frequency'] = syllabary.groupby('syllable')['syllable'].transform('count')
+    syllabary['Type Frequency'] = syllabary.groupby('syllable')['syllable'].transform('count')
     return syllabary
 
 df = pd.read_excel("DagaareDict.xlsx")

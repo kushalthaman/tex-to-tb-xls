@@ -2,6 +2,7 @@ import pandas as pd
 
 all_vowels = "aáàâãạåeéèêɛiíìîɪoóòôõɔuúùûʊ"
 all_cons = "hnŋbrdkstfgzmlpwyʧɲvgʣ"
+dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
 
 def accent_strip(c):
     if c == "á" or c == "à" or c == "â" or c == "ã" or c == "ạ" or c == "å":  # ạ å very strange

@@ -1,25 +1,49 @@
 import pandas as pd
 
+all_vowels = "aáàâãạåeéèêɛiíìîɪoóòôõɔuúùûʊ"
+
+def accent_strip(c):
+    if c == "á" or c == "à" or c == "â" or c == "ã" or c == "ạ" or c == "å":  # ạ å very strange
+        return "a"
+    if c == "é" or c == "è" or c == "ê":
+        return "e"
+    if c == "í" or c == "ì" or c == "î":
+        return "i"
+    if c == "ó" or c == "ò" or c == "ô" or c == "õ":
+        return "o"
+    if c == "ú" or c == "ù" or c == "û":
+        return "u"
+
+    return c
+
+def vowelize(word):
+    vowels = [accent_strip(char) for char in word if char.lower() in all_vowels or char == "."]
+    return "".join(vowels)
+
 def make_syllabary(df, column):
     syllables = []
     vowels = ["a","á","à","â","ã","ạ","å","a","e","é","è","ê","ɛ","i","í","ì","î","ɪ","o","ó","ò","ô","õ","ɔ","u","ú","ù","û","ʊ"]
-    
-    for word in df[column].tolist():
-        syllables.extend(word.split('.'))
-    
-    syllabary = pd.DataFrame(syllables, columns=["syllable"])
-    syllabary['Type Frequency'] = syllabary.groupby('syllable').transform('size')
 
-    def all_vowels(word):
-        return [vowel for vowel in vowels if vowel in word]
+    column_entries = df[column].astype(str)
 
-    syllabary['Vowel'] = syllabary['syllable'].apply(all_vowels)
-        
+    for word in column_entries.tolist():
+        word_syls = word.split(".")
+        syl_1 = [word_syls[0].replace("-", ""), True] # removed dashes, must remember to document that we did this
+        syllables.append(syl_1)
+        word_syls.pop(0)
+        for syl in word_syls:
+            syllables.append([syl.replace("-", ""), False])
+    
+    syllabary = pd.DataFrame(syllables, columns=["syllable", "initial"])
+    syllabary['Type Frequency'] = syllabary.groupby(["syllable", "initial"]).transform('size')
+
+    syllabary = syllabary.drop_duplicates(keep="last")
+
+    syllabary['Vowel'] = syllabary['syllable'].apply(vowelize)
+    
     return syllabary
 
 df = pd.read_excel("DagaareDict.xlsx")
-syllabary = make_syllabary(df, column = "PH+Syl")
+syllabary = make_syllabary(df, column = "PH + Syl")
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
 syllabary.to_excel("DagaareSyllabary.xlsx", index=False)
-
-  

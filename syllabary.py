@@ -52,10 +52,9 @@ def make_syllabary(df, column):
     
     def compute_syllable_weight(s):
         return any(sub_s.endswith(tuple(consonants)) or sub_s.endswith(tuple(all_long_vowels)) for sub_s in s.split('.'))
-    
-    syllabary['syllable weight'] = syllabary['syllable'].apply(compute_syllable_weight)
 
     syllabary = pd.DataFrame(syllables, columns=["Syllable", "Initial"])
+    
     syllabary['Type Frequency'] = syllabary.groupby(["Syllable", "Initial"]).transform('size')
 
     syllabary = syllabary.drop_duplicates(keep="last")
@@ -63,6 +62,8 @@ def make_syllabary(df, column):
     syllabary['Vowel'] = syllabary['Syllable'].apply(vowelize)
 
     syllabary["Template"] = syllabary["Syllable"].apply(templatize)
+
+    syllabary['Syllable Weight'] = syllabary['syllable'].apply(compute_syllable_weight)
     
     return syllabary
 

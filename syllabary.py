@@ -1,6 +1,7 @@
 import pandas as pd
 
 all_vowels = "aáàâãạåeéèêɛiíìîɪoóòôõɔuúùûʊ"
+all_cons = "hnŋbrdkstfgzmlpwyʧɲvgʣ"
 
 def accent_strip(c):
     if c == "á" or c == "à" or c == "â" or c == "ã" or c == "ạ" or c == "å":  # ạ å very strange
@@ -13,12 +14,28 @@ def accent_strip(c):
         return "o"
     if c == "ú" or c == "ù" or c == "û":
         return "u"
-
+    
     return c
 
 def vowelize(word):
     vowels = [accent_strip(char) for char in word if char.lower() in all_vowels or char == "."]
     return "".join(vowels)
+
+"""
+def isolate_segments(word):
+    return [char for char in word if char in all_vowels + all_cons]
+"""
+
+def templatize(syl):
+    # segments = isolate_segments(syl)
+    result = ""
+    for char in syl:
+        if char in all_vowels:
+            result += "V"
+        elif char in all_cons:
+            result += "C"
+    return result.replace("CC", "C")
+
 
 def make_syllabary(df, column):
     syllables = []
@@ -39,7 +56,9 @@ def make_syllabary(df, column):
 
     syllabary = syllabary.drop_duplicates(keep="last")
 
-    syllabary['Vowel'] = syllabary['Syllable'].apply(vowelize)
+    syllabary['Vowels'] = syllabary['Syllable'].apply(vowelize)
+
+    syllabary["Template"] = syllabary["Syllable"].apply(templatize)
     
     return syllabary
 

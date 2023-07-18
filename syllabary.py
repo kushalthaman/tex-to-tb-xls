@@ -34,12 +34,12 @@ def make_syllabary(df, column):
         for syl in word_syls:
             syllables.append([syl.replace("-", ""), False])
     
-    syllabary = pd.DataFrame(syllables, columns=["syllable", "initial"])
-    syllabary['Type Frequency'] = syllabary.groupby(["syllable", "initial"]).transform('size')
+    syllabary = pd.DataFrame(syllables, columns=["Syllable", "Initial"])
+    syllabary['Type Frequency'] = syllabary.groupby(["Syllable", "Initial"]).transform('size')
 
     syllabary = syllabary.drop_duplicates(keep="last")
 
-    syllabary['Vowel'] = syllabary['syllable'].apply(vowelize)
+    syllabary['Vowel'] = syllabary['Syllable'].apply(vowelize)
     
     return syllabary
 

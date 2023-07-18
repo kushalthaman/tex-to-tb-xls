@@ -19,6 +19,7 @@ def make_syllabary(df, column):
 
 df = pd.read_excel("DagaareDict.xlsx")
 syllabary = make_syllabary(df, column = "PH+Syl")
+syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
 syllabary.to_excel("DagaareSyllabary.xlsx", index=False)
 
   

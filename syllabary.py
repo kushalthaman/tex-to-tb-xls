@@ -48,7 +48,7 @@ def make_syllabary(df, column):
             syllables.append([syl.replace("-", ""), False])
 
     repeated_vowels = [v + v for v in vowels_list] 
-    long_vowels = repeated_vowels + diphthongs
+    long_vowels = repeated_vowels + dipthongs
     
     def compute_syllable_weight(s):
         return any(sub_s.endswith(tuple(consonants)) or sub_s.endswith(tuple(all_long_vowels)) for sub_s in s.split('.'))

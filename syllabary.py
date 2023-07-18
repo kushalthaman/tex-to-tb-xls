@@ -50,26 +50,25 @@ def make_syllabary(df, column):
 
     syllabary = syllabary.drop_duplicates(keep="last")
 
-    syllabary['Vowels'] = syllabary['Syllable'].apply(vowelize)
+    syllabary['Vowel'] = syllabary['Syllable'].apply(vowelize)
 
     syllabary["Template"] = syllabary["Syllable"].apply(templatize)
     
     return syllabary
 
 def print_templates(syllabary):
-    column_entries = syllabary["Template"].astype(str)
+    template_entries = syllabary["Template"].astype(str)
+    count_entries = syllabary["Type Frequency"].astype(int)
 
     templates = {}
 
-    for template in column_entries:
+    for template, count in zip(template_entries, count_entries):
         if template not in templates:
-            templates[template] = 1
+            templates[template] = count
         else:
-            templates[template] += 1
+            templates[template] += count
 
     print(templates)
-
-
 
 
 df = pd.read_excel("DagaareDict.xlsx")

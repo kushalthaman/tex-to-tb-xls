@@ -35,6 +35,7 @@ def templatize(syl):
 def make_syllabary(df, column):
     syllables = []
     vowels_list = ["a","á","à","â","ã","ạ","å","a","e","é","è","ê","ɛ","i","í","ì","î","ɪ","o","ó","ò","ô","õ","ɔ","u","ú","ù","û","ʊ"]
+    consonant_list = list(all_cons)
 
     column_entries = df[column].astype(str)
 
@@ -45,7 +46,15 @@ def make_syllabary(df, column):
         word_syls.pop(0)
         for syl in word_syls:
             syllables.append([syl.replace("-", ""), False])
+
+    repeated_vowels = [v + v for v in vowels_list] 
+    long_vowels = repeated_vowels + diphthongs
     
+    def compute_syllable_weight(s):
+        return any(sub_s.endswith(tuple(consonants)) or sub_s.endswith(tuple(all_long_vowels)) for sub_s in s.split('.'))
+    
+    syllabary['syllable weight'] = syllabary['syllable'].apply(compute_syllable_weight)
+
     syllabary = pd.DataFrame(syllables, columns=["Syllable", "Initial"])
     syllabary['Type Frequency'] = syllabary.groupby(["Syllable", "Initial"]).transform('size')
 

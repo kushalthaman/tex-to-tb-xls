@@ -8,7 +8,7 @@ def make_syllabary(df, column):
         syllables.extend(word.split('.'))
     
     syllabary = pd.DataFrame(syllables, columns=["syllable"])
-    syllabary['Type Frequency'] = syllabary.groupby('syllable')['syllable'].transform('count')
+    syllabary['Type Frequency'] = syllabary.groupby('syllable').transform('size')
 
     def all_vowels(word):
         return [vowel for vowel in vowels if vowel in word]

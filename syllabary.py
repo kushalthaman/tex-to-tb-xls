@@ -32,14 +32,16 @@ def templatize(syl):
     return result.replace("CC", "C")
 
 
-def make_syllabary(df, column):
+def make_syllabary(df):
     syllables = []
     # vowels_list = ["a","á","à","â","ã","ạ","å","a","e","é","è","ê","ɛ","i","í","ì","î","ɪ","o","ó","ò","ô","õ","ɔ","u","ú","ù","û","ʊ"]
     # consonants_list = list(all_cons)
 
-    column_entries = df[column].astype(str)
+    column_entries = df["PH + Syl"].astype(str)
 
-    for word in column_entries.tolist():
+    for word, excluded in zip (column_entries.tolist(), df["Excluded"].tolist()):
+        if excluded:
+            continue
         word_syls = word.split(".")
         syl_1 = [word_syls[0].replace("-", ""), True] # removed dashes, must remember to document that we did this
         syllables.append(syl_1)
@@ -87,7 +89,7 @@ def print_templates(syllabary):
 
 
 df = pd.read_excel("DagaareDict.xlsx")
-syllabary = make_syllabary(df, column = "PH + Syl")
+syllabary = make_syllabary(df)
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
 
 print_templates(syllabary)

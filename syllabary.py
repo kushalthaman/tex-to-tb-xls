@@ -8,19 +8,19 @@ labials = "bpfvm"
 coronals = "tdnlrdzʧɲszj"
 dorsals = "kgŋ"
 glottals = "h"
-doubles = ["kp", "gb", "ŋm", "w"]
+doubles = "kpgbŋmw"
 
-stops = ["bpmtdnɲkgŋ", "kp", "gb", "ŋm"] # need to reformat
+stops = "gbŋmtdnɲkp"
 fricatives = "fvszh"
 liquids = "rl"
-affricates = ["ʧ", "dz"]
+affricates = "ʧdz"
 approximants = "jw"
 
 back_vowels = "uʊoɔ"
 round_vowels = "uʊoɔ"
 high_vowels = "iɪuʊ"
 
-voiced = ["bvmdnlrdzɲzjgŋ", "gb", "ŋm", "w"]
+voiced = "gbvdnlrdzɲzjŋmw"
 
 # duplicated from extensions.py
 def accent_strip(c):

@@ -161,6 +161,39 @@ def place_nuc(syl):
     _, nuc, _ = segment(syl)
     return place(nuc)
 
+stops = "gbŋmtdnɲkp"
+fricatives = "fvszh"
+liquids = "rl"
+affricates = "ʧdz"
+approximants = "jw"
+
+def manner(seg):
+    if len(seg) == 0:
+        return ""
+    else: 
+        if seg in stops:
+            return "Stop"
+        elif seg in fricatives:
+            return "Fricative"
+        elif seg in liquids:
+            return "Liquid"
+        elif seg in affricates: 
+            return "Affricate"
+        elif seg in approximants: 
+            return "Approximant"
+
+def manner_coda(syl):
+    _, _, coda = segment(syl)
+    return manner(coda)
+
+def manner_onset(syl):
+    onset, _, _ = segment(syl)
+    return manner(onset)
+
+def manner_nuc(syl):
+    _, nuc, _ = segment(syl)
+    return manner(nuc)
+
 df = pd.read_excel("DagaareDict.xlsx")
 syllabary = make_syllabary(df)
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')

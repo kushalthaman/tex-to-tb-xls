@@ -4,6 +4,7 @@ all_vowels = "aáàâãạåeéèêɛiíìîɪoóòôõɔuúùûʊ"
 all_cons = "hnŋbrdkstfgzmlpwyʧɲvgʣ"
 dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
 
+# duplicated from extensions.py
 def accent_strip(c):
     if c == "á" or c == "à" or c == "â" or c == "ã" or c == "ạ" or c == "å":  # ạ å very strange
         return "a"
@@ -18,10 +19,12 @@ def accent_strip(c):
     
     return c
 
+# duplicated from extensions.py
 def vowelize(word):
     vowels = [accent_strip(char) for char in word if char.lower() in all_vowels or char == "."]
     return "".join(vowels)
 
+# returns the segmental structure of input syllable as a string of Cs and Vs
 def templatize(syl):
     result = ""
     for char in syl:
@@ -39,8 +42,9 @@ def make_syllabary(df):
 
     column_entries = df["PH + Syl"].astype(str)
 
+    # collects all syllables
     for word, excluded in zip (column_entries.tolist(), df["Excluded"].tolist()):
-        if excluded:
+        if excluded: # excluded words should not be considered
             continue
         word_syls = word.split(".")
         syl_1 = [word_syls[0].replace("-", ""), True] # removed dashes, must remember to document that we did this
@@ -51,9 +55,8 @@ def make_syllabary(df):
 
     # repeated_vowels = [v + v for v in vowels_list] 
     # long_vowels = repeated_vowels + dipthongs
-    
-    
-    
+
+    # determines if a syllable is heavy (if it has a coda or a long nucleus)
     def syllable_weight(template):
         # return any(sub_s.endswith(tuple(consonants_list)) or sub_s.endswith(tuple(long_vowels)) for sub_s in s.split('.')) # wrong results in some entries, like "dã́ã́" (98)
         # also dubious of labeling "C" as heavy (if there are real C-only syllables, C is def the nucleus)

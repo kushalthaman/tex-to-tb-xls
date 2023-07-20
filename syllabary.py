@@ -128,15 +128,15 @@ def export_ONC(syllabary):
         onset, nuc, coda = segment(syllable)
         if onset not in onsets:
             onsets[onset] = count
-        else
+        else:
             onsets[onset] += count
         if nuc not in nuclei:
             nuclei[nuc] = count
-        else
+        else:
             nuclei[nuc] += count
         if coda not in codas:
             codas[coda] = count
-        else
+        else:
             codas[coda] += count
 
     data1 = list(onsets.items())
@@ -146,13 +146,13 @@ def export_ONC(syllabary):
 
     data2 = list(nuclei.items())
     n_table = pd.DataFrame(data2, columns=["Nucleus", "Type Frequency"])
-    n.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
-    n.to_excel("NucleiTable.xlsx", index=False)
+    n_table.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
+    n_table.to_excel("NucleiTable.xlsx", index=False)
 
     data3 = list(codas.items())
     c_table = pd.DataFrame(data3, columns=["Coda", "Type Frequency"])
-    c.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
-    c.to_excel("CodaTable.xlsx", index=False)
+    c_table.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
+    c_table.to_excel("CodaTable.xlsx", index=False)
 
 
 def segment(syl): 

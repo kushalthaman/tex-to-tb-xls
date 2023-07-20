@@ -34,8 +34,8 @@ def templatize(syl):
 
 def make_syllabary(df, column):
     syllables = []
-    vowels_list = ["a","á","à","â","ã","ạ","å","a","e","é","è","ê","ɛ","i","í","ì","î","ɪ","o","ó","ò","ô","õ","ɔ","u","ú","ù","û","ʊ"]
-    consonant_list = list(all_cons)
+    # vowels_list = ["a","á","à","â","ã","ạ","å","a","e","é","è","ê","ɛ","i","í","ì","î","ɪ","o","ó","ò","ô","õ","ɔ","u","ú","ù","û","ʊ"]
+    # consonants_list = list(all_cons)
 
     column_entries = df[column].astype(str)
 
@@ -47,11 +47,15 @@ def make_syllabary(df, column):
         for syl in word_syls:
             syllables.append([syl.replace("-", ""), False])
 
-    repeated_vowels = [v + v for v in vowels_list] 
-    long_vowels = repeated_vowels + dipthongs
+    # repeated_vowels = [v + v for v in vowels_list] 
+    # long_vowels = repeated_vowels + dipthongs
     
-    def syllable_weight(s):
-        return any(sub_s.endswith(tuple(consonants_list)) or sub_s.endswith(tuple(long_vowels)) for sub_s in s.split('.'))
+    
+    
+    def syllable_weight(template):
+        # return any(sub_s.endswith(tuple(consonants_list)) or sub_s.endswith(tuple(long_vowels)) for sub_s in s.split('.')) # wrong results in some entries, like "dã́ã́" (98)
+        # also dubious of labeling "C" as heavy (if there are real C-only syllables, C is def the nucleus)
+        return "VC" in template or "VV" in template
 
     syllabary = pd.DataFrame(syllables, columns=["Syllable", "Initial"])
     
@@ -63,7 +67,7 @@ def make_syllabary(df, column):
 
     syllabary["Template"] = syllabary["Syllable"].apply(templatize)
 
-    syllabary['Syllable Weight'] = syllabary['Syllable'].apply(syllable_weight)
+    syllabary['Syllable Weight'] = syllabary['Template'].apply(syllable_weight)
     
     return syllabary
 
@@ -88,4 +92,4 @@ syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, 
 
 print_templates(syllabary)
 
-syllabary.to_excel("DagaareSyllabary1.xlsx", index=False)
+syllabary.to_excel("DagaareSyllabary.xlsx", index=False)

@@ -134,13 +134,6 @@ def segment(syl):
             onset += ch
     return [onset, "", coda]
 
-
-labials = "bpfvm"
-coronals = "tdnlrdzʧɲszj"
-dorsals = "kgŋ"
-glottals = "h"
-doubles = ["kp", "gb", "ŋm", "w"]
-
 def place(seg):
     if len(seg) == 0:
         return ""

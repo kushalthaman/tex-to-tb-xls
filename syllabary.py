@@ -214,4 +214,16 @@ syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, 
 
 export_templates(syllabary)
 
+syllabary['Place-Ons'] = syllabary['Syllable'].apply(place_onset)
+syllabary['Place-Nuc'] = syllabary['Syllable'].apply(place_nuc)
+syllabary['Place-Coda'] = syllabary['Syllable'].apply(place_coda)
+
+syllabary['Manner-Ons'] = syllabary['Syllable'].apply(manner_onset)
+syllabary['Manner-Nuc'] = syllabary['Syllable'].apply(manner_nuc)
+syllabary['Manner-Coda'] = syllabary['Syllable'].apply(manner_coda)
+
+syllabary['Voice-Ons'] = syllabary['Syllable'].apply(voice_onset)
+syllabary['Voice-Nuc'] = syllabary['Syllable'].apply(voice_nuc)
+syllabary['Voice-Coda'] = syllabary['Syllable'].apply(voice_coda)
+
 syllabary.to_excel("DagaareSyllabary.xlsx", index=False)

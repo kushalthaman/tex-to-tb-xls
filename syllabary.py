@@ -134,6 +134,40 @@ def segment(syl):
             onset += ch
     return [onset, "", coda]
 
+
+labials = "bpfvm"
+coronals = "tdnlrdzʧɲszj"
+dorsals = "kgŋ"
+glottals = "h"
+doubles = ["kp", "gb", "ŋm", "w"]
+
+def place(seg):
+    if len(seg) == 0:
+        return ""
+    else: 
+        if seg in labials:
+            return "Labial"
+        elif seg in coronals:
+            return "Coronal"
+        elif seg in dorsals:
+            return "Dorsal"
+        elif seg in glottals: 
+            return "Glottal"
+        elif seg in doubles: 
+            return "Double"
+
+def place_coda(syl):
+    _, _, coda = segment(syl)
+    return place(coda)
+
+def place_onset(syl):
+    onset, _, _ = segment(syl)
+    return place(onset)
+
+def place_nuc(syl):
+    _, nuc, _ = segment(syl)
+    return place(nuc)
+
 df = pd.read_excel("DagaareDict.xlsx")
 syllabary = make_syllabary(df)
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')

@@ -5,7 +5,7 @@ all_cons = "hnŋbrdkstfgzmlpwyʧɲvgʣ"
 dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
 
 labials = "bpfvm"
-coronals = "tdnlrdzʧɲszj"
+coronals = "tdnlrdzʧɲszy"
 dorsals = "kgŋ"
 glottals = "h"
 doubles = "kpgbŋmw"
@@ -14,13 +14,13 @@ stops = "gbŋmtdnɲkp"
 fricatives = "fvszh"
 liquids = "rl"
 affricates = "ʧdz"
-approximants = "jw"
+approximants = "yw"
 
 back_vowels = "uʊoɔ"
 round_vowels = "uʊoɔ"
 high_vowels = "iɪuʊ"
 
-voiced = "gbvdnlrdzɲzjŋmw"
+voiced = "gbvdnlrdzɲzyŋmw"
 
 # duplicated from extensions.py
 def accent_strip(c):

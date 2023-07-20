@@ -114,8 +114,6 @@ def export_templates(syllabary):
     template_table.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
     template_table.to_excel("TemplateTable.xlsx", index=False)
 
-
-
 def export_ONC(syllabary):
     onsets = {}
     nuclei = {}
@@ -332,6 +330,7 @@ syllabary = make_syllabary(df)
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
 
 export_templates(syllabary)
+export_ONC(syllabary)
 
 syllabary['Place-Ons'] = syllabary['Syllable'].apply(place_onset)
 syllabary['Place-Nuc'] = syllabary['Syllable'].apply(place_nuc)

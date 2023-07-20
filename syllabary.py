@@ -239,7 +239,7 @@ def nasalize(word):
         elif char == ".":
             result += "."
             
-    return N in result # in extensions this returns a string, modified here to return a boolean
+    return "N" in result # in extensions this returns a string, modified here to return a boolean
 
 def tonalize(syllabified_word, do_syllabify):
     tonalized_word = ""
@@ -306,7 +306,7 @@ syllabary['Voice-Nuc'] = syllabary['Syllable'].apply(voice_nuc)
 syllabary['Voice-Coda'] = syllabary['Syllable'].apply(voice_coda)
 
 syllabary['ATR'] = syllabary['Vowel'].apply(ATR_val)
-syllabary['Tone'] = syllabary['Syllable'].apply(tonalize)
+syllabary['Tone'] = syllabary['Syllable'].apply(tonalize, do_syllabify = False)
 syllabary['Nasal'] = syllabary['Syllable'].apply(nasalize)
 
 syllabary['Round'] = syllabary['Vowel'].apply(round)

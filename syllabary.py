@@ -4,6 +4,22 @@ all_vowels = "aáàâãạåeéèêɛiíìîɪoóòôõɔuúùûʊ"
 all_cons = "hnŋbrdkstfgzmlpwyʧɲvgʣ"
 dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
 
+labials = "bpfvm"
+coronals = "tdnlrdzʧɲszj"
+dorsals = "kgŋ"
+glottals = "h"
+doubles = ["kp", "gb", "ŋm", "w"]
+
+stops = "bpmtdnɲkgŋ" "kp" "gb" "ŋm"
+fricatives = "fvszh"
+liquids = "rl"
+affricates = "ʧ" "dz"
+approximants = "jw"
+
+back_vowels = "uʊoɔ"
+round_vowels = "uʊoɔ"
+high_vowels = "iɪuʊ"
+
 # duplicated from extensions.py
 def accent_strip(c):
     if c == "á" or c == "à" or c == "â" or c == "ã" or c == "ạ" or c == "å":  # ạ å very strange

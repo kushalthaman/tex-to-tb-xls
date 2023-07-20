@@ -16,6 +16,7 @@ dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
 tones = {"á":"H", "é":"H", "í":"H", "ó":"H", "ú" : "H", "à":"L", "è":"L", "ì":"L", "ò":"L", "ù":"L", "â":"HL", "ê":"HL", "ô" : "HL", "û": "HL", "́":"H", "̀":"L", "̂":"HL", "̌":"LH"}
 nasal_chars = ["̃", "ã"]
 
+#finds the first character representing a segnment in word AFTER ind
 def first_seg(ind, word):
     if ind+1 < len(word) and word[ind] + word[ind+1] in digraphs:
         ind += 1
@@ -24,12 +25,14 @@ def first_seg(ind, word):
             return char
     return False
 
+#eliminates words with peculiar/unexpected characters
 def is_exclude(word):
     for char in word:
         if char in exclude_list:
             return True
     return False
 
+#converts a fused vowel+tone(+nasal) character into the isolated vowel symbol
 def accent_strip(c):
     if c == "á" or c == "à" or c == "â" or c == "ã" or c == "ạ" or c == "å":  # ạ å very strange
         return "a"
@@ -44,6 +47,10 @@ def accent_strip(c):
 
     return c
 
+# syllabifies words by inserting . at syllable boundaries
+# syllable boundaries were identified between a) consecutive vowels which were not long monopthongs or the 4 typical dagaare dipthongs
+# b) consecutive consonants
+# c) VCV > V.CV
 def syllabify(word):  # not sensible for excluded words
     result = ""
     prev_seg = None
@@ -68,8 +75,8 @@ def syllabify(word):  # not sensible for excluded words
         if char in all_cons or char in all_vowels:
             prev_seg = char
 
-    result = result.strip(".")
-    dot_pattern = r"\.+"
+    result = result.strip(".") # remove any initial or final "."
+    dot_pattern = r"\.+" # remove any consecutive "."
     result = re.sub(dot_pattern, ".", result)
 
     return result
@@ -124,7 +131,9 @@ def syllabify_nasal_and_tone(word, do_syllabify):
     tone_word = tone(word)
     return nasal_word, tone_word
 """
-    
+# FALSE if vowels are all -ATR
+# TRUE if vowels are all +ATR
+# "Nonharmonic" if vowels are mixed
 def ATR_val(vowels):
     pATR = False
     nATR = False
@@ -143,6 +152,7 @@ def ATR_val(vowels):
         return False
     return "error"
 
+"""
 def syl_length(words):
     max_syl = 0
     max_word = ""
@@ -153,7 +163,7 @@ def syl_length(words):
                 max_syl = len(syllable)
                 max_word = word
     return max_syl, max_word
-
+"""
 # this function currently tracks length including unicode characters, so a good idea is to keep track of the top-n (for say n=30) longest syllables and manually check the longest syllable length from there.
 
 df = pd.read_excel("DagaareDict.xlsx")

@@ -208,6 +208,54 @@ def voice_nuc(syl):
     _, nuc, _ = segment(syl)
     return voice(nuc)
 
+def ATR_val(vowels):
+    pATR = False
+    nATR = False
+
+    for vowel in vowels:
+        if vowel in pATR_list:
+            pATR = True
+        if vowel in nATR_list:
+            nATR = True
+    
+    if pATR and nATR:
+        return "Nonharmonic"
+    if pATR:
+        return True
+    if nATR:
+        return False
+    return "error"
+
+# nasal_chars = ["̃", "ã", "õ"]
+def nasalize(word):
+    result = ""
+    for char in word:
+        if char in "̃õã":
+            result = result [:-1] + "N"
+        elif char in all_vowels:
+            result += "O"
+        elif char == ".":
+            result += "."
+    
+    return N in result # in extensions this returns a string, modified here to return a boolean
+
+def tonalize(syllabified_word, do_syllabify):
+    tonalized_word = ""
+    last_tone = None
+
+    for char in syllabified_word:
+        if char == ".":
+            tonalized_word += char
+            last_tone = None  
+        elif char in tones and last_tone != tones[char]:
+            tonalized_word += tones[char]
+            last_tone = tones[char]
+
+    if not do_syllabify:
+        tonalized_word = tonalized_word.replace(".", "")
+        
+    return tonalized_word
+
 df = pd.read_excel("DagaareDict.xlsx")
 syllabary = make_syllabary(df)
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')

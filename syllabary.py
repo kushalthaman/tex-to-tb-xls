@@ -57,6 +57,7 @@ def make_syllabary(df):
     # long_vowels = repeated_vowels + dipthongs
 
     # determines if a syllable is heavy (if it has a coda or a long nucleus)
+    # a heavy syllable is labeled as "true"
     def syllable_weight(template):
         # return any(sub_s.endswith(tuple(consonants_list)) or sub_s.endswith(tuple(long_vowels)) for sub_s in s.split('.')) # wrong results in some entries, like "dã́ã́" (98)
         # also dubious of labeling "C" as heavy (if there are real C-only syllables, C is def the nucleus)

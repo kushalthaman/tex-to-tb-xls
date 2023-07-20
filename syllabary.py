@@ -282,7 +282,7 @@ def round(vowel):
     return vowel in round_vowels
 
 def back(vowel):
-    if "a" in vowel
+    if "a" in vowel:
         return ""
     return vowel in back_vowels
     

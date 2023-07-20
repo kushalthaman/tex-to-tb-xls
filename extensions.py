@@ -92,8 +92,10 @@ def vowelize(word):
 def nasalize(word):
     result = ""
     for char in word:
-        if char in "̃õã":
+        if char == "̃":
             result = result [:-1] + "N"
+        elif char in "õã":
+            result += "N"
         elif char in all_vowels:
             result += "O"
         elif char == ".":

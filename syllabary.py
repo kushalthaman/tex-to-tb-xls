@@ -73,7 +73,7 @@ def make_syllabary(df):
     
     return syllabary
 
-def print_templates(syllabary):
+def export_templates(syllabary):
     template_entries = syllabary["Template"].astype(str)
     count_entries = syllabary["Type Frequency"].astype(int)
 
@@ -87,11 +87,16 @@ def print_templates(syllabary):
 
     print(templates)
 
+    data = list(templates.items())
+    template_table = pd.DataFrame(data, columns=["Template", "Type Frequency"])
+    template_table.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
+    template_table.to_excel("TemplateTable.xlsx", index=False)
+
 
 df = pd.read_excel("DagaareDict.xlsx")
 syllabary = make_syllabary(df)
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
 
-print_templates(syllabary)
+export_templates(syllabary)
 
 syllabary.to_excel("DagaareSyllabary.xlsx", index=False)

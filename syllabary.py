@@ -115,6 +115,25 @@ def export_templates(syllabary):
     template_table.to_excel("TemplateTable.xlsx", index=False)
 
 
+def segment(syl): 
+    onset = ""
+    nucleus = ""
+    coda = ""
+
+    first_non_consonant = False 
+    
+    if templatize(syl) == "C":
+        return [onset, syl, coda]
+
+    for ch in syl: 
+        if first_non_consonant == False and ch not in list(all_cons):
+            first_non_consonant = True
+        if first_non_consonant == True and ch in list(all_cons):
+            coda += ch
+        if first_non_consonant == False: 
+            onset += ch
+    return [onset, "", coda]
+
 df = pd.read_excel("DagaareDict.xlsx")
 syllabary = make_syllabary(df)
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')

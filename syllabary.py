@@ -10,10 +10,10 @@ dorsals = "kgŋ"
 glottals = "h"
 doubles = ["kp", "gb", "ŋm", "w"]
 
-stops = "bpmtdnɲkgŋ" "kp" "gb" "ŋm"
+stops = ["bpmtdnɲkgŋ", "kp", "gb", "ŋm"] # need to reformat
 fricatives = "fvszh"
 liquids = "rl"
-affricates = "ʧ" "dz"
+affricates = ["ʧ", "dz"]
 approximants = "jw"
 
 back_vowels = "uʊoɔ"

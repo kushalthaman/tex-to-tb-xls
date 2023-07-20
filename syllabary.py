@@ -230,13 +230,15 @@ def ATR_val(vowels):
 def nasalize(word):
     result = ""
     for char in word:
-        if char in "̃õã":
+        if char == "̃":
             result = result [:-1] + "N"
+        elif char in "õã":
+            result += "N"
         elif char in all_vowels:
             result += "O"
         elif char == ".":
             result += "."
-    
+            
     return N in result # in extensions this returns a string, modified here to return a boolean
 
 def tonalize(syllabified_word, do_syllabify):
@@ -256,6 +258,35 @@ def tonalize(syllabified_word, do_syllabify):
         
     return tonalized_word
 
+back_vowels = "uuʊʊooɔɔuoʊɔ"
+# front_vowels = "iɪeɛ"
+# "a"
+round_vowels = "uuʊʊooɔɔuoʊɔ"
+high_vowels = "iiɪɪuuʊʊieɪɛ"
+low_vowels = "aa"
+# mid_vowels = "eɛoɔ"
+
+# diphthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
+
+# front-central-back (back column with values true,null,false)
+# high-mid-low (high boolean column AND low boolean column, mid are false,false)
+# round-unround (boolean round column)
+
+def height_high(vowel):
+    return vowel in high_vowels
+
+def height_low(vowel):
+    return vowel in low_vowels
+
+def round(vowel):
+    return vowel in round_vowels
+
+def back(vowel):
+    if "a" in vowel
+        return ""
+    return vowel in back_vowels
+    
+
 df = pd.read_excel("DagaareDict.xlsx")
 syllabary = make_syllabary(df)
 syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, kind = 'quicksort')
@@ -273,5 +304,14 @@ syllabary['Manner-Coda'] = syllabary['Syllable'].apply(manner_coda)
 syllabary['Voice-Ons'] = syllabary['Syllable'].apply(voice_onset)
 syllabary['Voice-Nuc'] = syllabary['Syllable'].apply(voice_nuc)
 syllabary['Voice-Coda'] = syllabary['Syllable'].apply(voice_coda)
+
+syllabary['ATR'] = syllabary['Vowel'].apply(ATR_val)
+syllabary['Tone'] = syllabary['Syllable'].apply(tonalize)
+syllabary['Nasal'] = syllabary['Syllable'].apply(nasalize)
+
+syllabary['Round'] = syllabary['Vowel'].apply(round)
+syllabary['High'] = syllabary['Vowel'].apply(height_high)
+syllabary['Low'] = syllabary['Vowel'].apply(height_low)
+syllabary['Back'] = syllabary['Vowel'].apply(back)
 
 syllabary.to_excel("DagaareSyllabary.xlsx", index=False)

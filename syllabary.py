@@ -20,7 +20,7 @@ back_vowels = "uʊoɔ"
 round_vowels = "uʊoɔ"
 high_vowels = "iɪuʊ"
 
-voiced = ["bvmdnlrdzɲzjgŋ", "gb", "ŋm", w"]
+voiced = ["bvmdnlrdzɲzjgŋ", "gb", "ŋm", "w"]
 
 # duplicated from extensions.py
 def accent_strip(c):

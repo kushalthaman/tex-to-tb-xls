@@ -161,12 +161,6 @@ def place_nuc(syl):
     _, nuc, _ = segment(syl)
     return place(nuc)
 
-stops = "gbŋmtdnɲkp"
-fricatives = "fvszh"
-liquids = "rl"
-affricates = "ʧdz"
-approximants = "jw"
-
 def manner(seg):
     if len(seg) == 0:
         return ""
@@ -193,6 +187,26 @@ def manner_onset(syl):
 def manner_nuc(syl):
     _, nuc, _ = segment(syl)
     return manner(nuc)
+
+voiced = "gbvdnlrdzɲzjŋmw"
+
+def voice(seg):
+    if len(seg) == 0:
+        return ""
+    else: 
+        return seg in voiced
+        
+def voice_coda(syl):
+    _, _, coda = segment(syl)
+    return voice(coda)
+
+def voice_onset(syl):
+    onset, _, _ = segment(syl)
+    return voice(onset)
+
+def voice_nuc(syl):
+    _, nuc, _ = segment(syl)
+    return voice(nuc)
 
 df = pd.read_excel("DagaareDict.xlsx")
 syllabary = make_syllabary(df)

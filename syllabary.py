@@ -20,6 +20,8 @@ back_vowels = "uʊoɔ"
 round_vowels = "uʊoɔ"
 high_vowels = "iɪuʊ"
 
+voiced = ["bvmdnlrdzɲzjgŋ", "gb", "ŋm", w"]
+
 # duplicated from extensions.py
 def accent_strip(c):
     if c == "á" or c == "à" or c == "â" or c == "ã" or c == "ạ" or c == "å":  # ạ å very strange

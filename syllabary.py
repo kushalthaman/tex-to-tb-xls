@@ -269,6 +269,7 @@ def ATR_val(vowels):
     return ""
 
 # nasal_chars = ["̃", "ã", "õ"]
+# nasal_chars = ["̃", "ã", "õ", "m", "n", "ŋ", "ɲ"]
 def nasalize(word):
     result = ""
     for char in word:

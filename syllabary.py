@@ -266,7 +266,7 @@ def ATR_val(vowels):
         return True
     if nATR:
         return False
-    return "error"
+    return ""
 
 # nasal_chars = ["̃", "ã", "õ"]
 def nasalize(word):

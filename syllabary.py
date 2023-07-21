@@ -5,7 +5,7 @@ all_cons = "hnŋbrdkstfgzmlpwyʧɲvgʣ"
 dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
 
 labials = "bpfvm"
-coronals = "tdnlrdzʧɲszy"
+coronals = "tdnlrdzʧɲszyʣ" #weird that dz is sometimes ʣ
 dorsals = "kgŋ"
 glottals = "h"
 doubles = "kpgbŋmw"
@@ -13,14 +13,14 @@ doubles = "kpgbŋmw"
 stops = "gbŋmtdnɲkp"
 fricatives = "fvszh"
 liquids = "rl"
-affricates = "ʧdz"
+affricates = "ʧdzʣ"
 approximants = "yw"
 
 back_vowels = "uʊoɔ"
 round_vowels = "uʊoɔ"
 high_vowels = "iɪuʊ"
 
-voiced = "gbvdnlrdzɲzyŋmw"
+voiced = "gbvdnlrdzɲzyŋmwʣ"
 
 # duplicated from extensions.py
 def accent_strip(c):
@@ -136,6 +136,10 @@ def export_ONC(syllabary):
             codas[coda] = count
         else:
             codas[coda] += count
+
+    del onsets[""]
+    del nuclei[""]
+    del codas[""]
 
     data1 = list(onsets.items())
     o_table = pd.DataFrame(data1, columns=["Onset", "Type Frequency"])

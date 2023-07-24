@@ -275,7 +275,7 @@ def nasalize(word):
     for char in word:
         if char == "̃":
             result = result [:-1] + "N"
-        elif char in "õã":
+        elif char in "õãnŋmɲ":
             result += "N"
         elif char in all_vowels:
             result += "O"

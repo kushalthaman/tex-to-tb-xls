@@ -316,16 +316,22 @@ low_vowels = "aa"
 # round-unround (boolean round column)
 
 def height_high(vowel):
+    if vowel == "":
+        return ""
     return vowel in high_vowels
 
 def height_low(vowel):
+    if vowel == "":
+        return ""
     return vowel in low_vowels
 
 def round(vowel):
+    if vowel == "":
+        return ""
     return vowel in round_vowels
 
 def back(vowel):
-    if "a" in vowel:
+    if vowel == "" or "a" in vowel:
         return ""
     return vowel in back_vowels
     

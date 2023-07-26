@@ -64,7 +64,7 @@ def make_syllabary(df):
     for word, excluded in zip (column_entries.tolist(), df["Excluded"].tolist()):
         if excluded: # excluded words should not be considered
             continue
-        word_syls = word.split(".")
+        word_syls = word.replace("ǳ", "dz").split(".") #replace dz ligature with normal digraph
         syl_1 = [word_syls[0].replace("-", ""), True] # removed dashes, must remember to document that we did this
         syllables.append(syl_1)
         word_syls.pop(0)
@@ -176,6 +176,18 @@ def segment(syl):
             onset += ch
     return [onset, "", coda]
 
+def onset(syl):
+    return segment(syl)[0]
+
+def nuc(syl): # including vowel
+    vnuc = vowelize(syl)
+    if vnuc == "":
+        return syl
+    return vnuc
+
+def coda(syl):
+    return segment(syl)[2]
+
 def place(seg):
     if len(seg) == 0:
         return ""
@@ -268,21 +280,25 @@ def ATR_val(vowels):
         return False
     return ""
 
-# nasal_chars = ["̃", "ã", "õ"]
-# nasal_chars = ["̃", "ã", "õ", "m", "n", "ŋ", "ɲ"]
+
+# nasal vowels = ["̃", "ã", "õ"]
+# nasal cons = ["̃", "ã", "õ", "m", "n", "ŋ", "ɲ"]
 def nasalize(word):
     result = ""
     for char in word:
         if char == "̃":
             result = result [:-1] + "N"
-        elif char in "õãnŋmɲ":
+        elif char in "õã":
             result += "N"
         elif char in all_vowels:
             result += "O"
         elif char == ".":
             result += "."
-            
-    return "N" in result # in extensions this returns a string, modified here to return a boolean
+
+    if result == "":
+        return bool(set(word) & set("mnŋɲ")) # in extensions this returns a string, modified here to return a boolean
+
+    return "N" in result
 
 def tonalize(syllabified_word, do_syllabify):
     tonalized_word = ""
@@ -342,6 +358,10 @@ syllabary.sort_values(by = 'Type Frequency', ascending = False, inplace = True, 
 
 export_templates(syllabary)
 export_ONC(syllabary)
+
+syllabary['Ons'] = syllabary['Syllable'].apply(onset)
+syllabary['Nuc'] = syllabary['Syllable'].apply(nuc)
+syllabary['Coda'] = syllabary['Syllable'].apply(coda)
 
 syllabary['Place-Ons'] = syllabary['Syllable'].apply(place_onset)
 syllabary['Place-Nuc'] = syllabary['Syllable'].apply(place_nuc)

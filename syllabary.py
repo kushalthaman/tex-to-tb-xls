@@ -262,6 +262,9 @@ def voice_nuc(syl):
     _, nuc, _ = segment(syl)
     return voice(nuc)
 
+pATR_list = "eiou"
+nATR_list = "aɛɪɔʊ"
+
 def ATR_val(vowels):
     pATR = False
     nATR = False

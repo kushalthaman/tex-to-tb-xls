@@ -1,20 +1,22 @@
 import pandas as pd
+import numpy as np
 
-data = pd.read_csv('aamulehti-1999.csv', sep='\t')
+df = pd.read_csv('aamulehti-1999.csv', sep='\t')
+print(df.head())
 
-selected_data = data[(data['is-gold'] == 1) & (data['freq'] > 99)]
+df_gold = df[(df['is.gold'] == 1) & (df['frequency'] > 99)]
+gold0_df = df[df['is.gold'] == 0]
 
-syllabary1 = pd.concat([selected_data['gold1'], selected_data['gold2'], selected_data['gold3']]).dropna()
-syllabary2 = pd.concat([selected_data['lem-P1'], selected_data['lem-P2'], selected_data['lem-P3'], selected_data['lem-P4']]).dropna()
-syllabary2 = syllabary2.str.replace("'", "")
+null_gold1 = gold0_df['gold1'].isnull().sum()
 
-residue_data = data[(data['is-gold'] == 0) | (data['is-gold'].isna())]
-residue_data_gold0 = residue_data[(residue_data['is-gold'] == 0) & (residue_data['freq'] > 99)]
+print(f"Rows with 'is.gold' == 0 and null 'gold1': {null_gold1}")
+high_freq_gold0_df = gold0_df[gold0_df['frequency'] > 99]
 
-residue_data_gold_na = residue_data[(data['is-gold'].isna()) & (residue_data['freq'] < 100)]
+print(f"Rows with 'is.gold' == 0 and frequency > 99: {len(high_freq_gold0_df)}")
+gold_na_df = df[df['is.gold'].isnull()]
+non_null_gold1 = gold_na_df['gold1'].notnull().sum()
 
-print(f"Number of rows in the selected data: {len(selected_data)}")
-print(f"Number of unique syllables in Syllabary 1: {len(syllabary1.unique())}")
-print(f"Number of unique syllables in Syllabary 2: {len(syllabary2.unique())}")
-print(f"Number of residue rows with 'is-gold' == 0 and 'freq' > 99: {len(residue_data_gold0)}")
-print(f"Number of residue rows with 'is-gold' == NA and 'freq' < 100: {len(residue_data_gold_na)}")
+print(f"Rows with 'is.gold' == NA and non-null 'gold1': {non_null_gold1}")
+
+high_freq_gold_na_df = gold_na_df[gold_na_df['frequency'] >= 100]
+print(f"Rows with 'is.gold' == NA and frequency >= 100: {len(high_freq_gold_na_df)}")

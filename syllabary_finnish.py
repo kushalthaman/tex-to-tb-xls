@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+## Sanity checks
+
 df = pd.read_csv('aamulehti-1999.csv', sep='\t')
 print(df.head())
 
@@ -23,3 +25,4 @@ print(f"Rows with 'is.gold' == NA and frequency >= 100: {len(high_freq_gold_na_d
 df_gold = df[(df['is-gold'] == 1) & (df['freq'] > 99)]
 print(f"Rows with 'is-gold' == 1 and freq > 99: {len(df_gold)}")
 
+## Making the syllabary

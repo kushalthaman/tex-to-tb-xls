@@ -1,6 +1,6 @@
 import pandas as pd
 
-
+data = pd.read_csv('aamulehti-1999.csv', sep='\t')
 
 selected_data = data[(data['is-gold'] == 1) & (data['freq'] > 99)]
 

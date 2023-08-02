@@ -19,3 +19,7 @@ print(f"Rows with 'is.gold' == NA and non-null 'gold1': {non_null_gold1}")
 
 high_freq_gold_na_df = gold_na_df[gold_na_df['frequency'] >= 100]
 print(f"Rows with 'is.gold' == NA and frequency >= 100: {len(high_freq_gold_na_df)}")
+
+df_gold = df[(df['is-gold'] == 1) & (df['freq'] > 99)]
+print(f"Rows with 'is-gold' == 1 and freq > 99: {len(df_gold)}")
+

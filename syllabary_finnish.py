@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('path_to_your_file.csv')
+df = pd.read_csv('aamulehti-1999.csv')
 
 df_gold = df[df['is.gold'] == 1]
 df_freq = df_gold[df_gold['freq'] > 99]

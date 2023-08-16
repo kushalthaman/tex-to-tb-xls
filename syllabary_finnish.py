@@ -3,40 +3,81 @@
 #we only want those with isgold=1 and freq > 99
 def make_syllabary_one(df): #We take from gold1, gold2, gold3 looking at is-gold and freq
     syllables = {}
-    column_entries = df['gold1'].tolist() + df['gold2'].tolist() + df['gold3'].tolist()
-    frequency = df['freq'].tolist() + df['freq'].tolist() + df['freq'].tolist()
-    is_gold_list = df['is-gold'].tolist() + df['is-gold'].tolist() + df['is-gold'].tolist()
+    gold1_entries = df['gold1']
+    gold2_entries = df['gold2']
+    gold3_entries = df['gold3']
+    frequency = df['freq']
+    is_gold_list = df['is-gold']
     
-    print(str(len(column_entries)) + ' ' + str(len(frequency)) + ' ' + str(len(is_gold_list)))
+    # print(str(len(column_entries)) + ' ' + str(len(frequency)) + ' ' + str(len(is_gold_list)))
 
-    for word, freq, is_gold in zip(column_entries, frequency, is_gold_list):
-        if pd.isna(word):
-            continue
+    # count = 0
+    # for entry in df['gold2'].tolist():
+    #     if not pd.isna(entry):
+    #         count += 1
+
+    #604 words with more than 1 syllabification (without checking if is-gold)
+
+    # print(count)
+
+    for word1, word2, word3, freq, is_gold in zip(gold1_entries, gold2_entries, gold3_entries, frequency, is_gold_list):
+        # if pd.isna(word):
+        #     continue
         if freq < 100 or not is_gold:
             continue
 
-        word = str(word)
-        word = word.replace(' ', '.')
-        word = word.replace('-', '.')
-        word = word.replace('_', '.')
-        word = word.replace('`', '')
-        word = word.replace('\'', '')
+        increment = 1.0/3
+        if pd.isna(word3):
+            increment = 0.5
+            word3 = ''
+        if pd.isna(word2):
+            increment = 1.0
+            word2 = ''
 
-        word_syls = word.split('.')
-        for syl in word_syls:
-            if syl == '':
-                continue
-            if syl in syllables:
-                syllables[syl][0] += 1
-                syllables[syl][1] += freq
-            else:
-                syllables[syl] = [1, freq]
+        word1, word2, word3 = str(word1), str(word2), str(word3)
 
-    syllabary = pd.DataFrame.from_dict(syllables, orient='index', columns=['Type Frequency', 'Token Frequency'])
-    syllabary['Syllable'] = syllabary.index
+        if word1 == 'aal.lon':
+            print(word2 + ', ' + word3)
+            print(str(increment))
+
+        def strip(word):
+            word = word.replace(' ', '.')
+            word = word.replace('-', '.')
+            word = word.replace('_', '.')
+            word = word.replace('`', '')
+            word = word.replace('\'', '')
+
+            return word
+
+        for word in [word1, word2, word3]:
+            word = strip(word)
+            word_syls = word.split('.')
+            if '' in word_syls:
+                word_syls.remove('')
+
+            first = True
+            for syl in word_syls:
+                if first:
+                    first = False
+                    entry = (syl, True)
+                else:
+                    entry = (syl, False)
+                if entry in syllables:
+                    syllables[entry][0] += increment
+                    syllables[entry][1] += freq*increment
+                else:
+                    syllables[entry] = [increment, freq*increment]
+
+    keys = list(syllables.keys())
+    values = list(syllables.values())
+
+    index_cols = pd.DataFrame(keys, columns=['Syllable', 'Stressed'])
+    syllabary = pd.DataFrame(values, columns=['Type Frequency', 'Token Frequency'])
+    syllabary = pd.concat([index_cols, syllabary], axis=1)
+
     syllabary.reset_index(drop=True, inplace=True)
 
-    syllabary = syllabary[['Syllable', 'Type Frequency', 'Token Frequency']]
+    syllabary = syllabary[['Syllable', 'Stressed', 'Type Frequency', 'Token Frequency']]
     
     return syllabary
 
@@ -60,20 +101,38 @@ def make_syllabary_two(df): #take from 'lem-P1', ignoring stress
         word = word.replace('\'', '')
 
         word_syls = word.split('.')
-        for syl in word_syls:
-            if syl == '':
-                continue
-            if syl in syllables:
-                syllables[syl][0] += 1
-                syllables[syl][1] += freq
-            else:
-                syllables[syl] = [1, freq]
 
-    syllabary = pd.DataFrame.from_dict(syllables, orient='index', columns=['Unweighted Frequency', 'Weighted Frequency'])
-    syllabary['Syllable'] = syllabary.index
+        first = True
+        for syl in word_syls:
+            if first:
+                first = False
+                entry = (syl, True)
+            else:
+                entry = (syl, False)
+            if entry in syllables:
+                syllables[entry][0] += 1
+                syllables[entry][1] += freq
+            else:
+                syllables[entry] = [1, freq]
+
+    # syllabary = pd.DataFrame.from_dict(syllables, orient='index', columns=['Unweighted Frequency', 'Weighted Frequency'])
+    # syllabary['Syllable'] = syllabary.index
+    # syllabary.reset_index(drop=True, inplace=True)
+
+    # syllabary = syllabary[['Syllable', 'Unweighted Frequency', 'Weighted Frequency']]
+    
+    # return syllabary
+
+    keys = list(syllables.keys())
+    values = list(syllables.values())
+
+    index_cols = pd.DataFrame(keys, columns=['Syllable', 'Stressed'])
+    syllabary = pd.DataFrame(values, columns=['Unweighted Frequency', 'Weighted Frequency'])
+    syllabary = pd.concat([index_cols, syllabary], axis=1)
+
     syllabary.reset_index(drop=True, inplace=True)
 
-    syllabary = syllabary[['Syllable', 'Unweighted Frequency', 'Weighted Frequency']]
+    syllabary = syllabary[['Syllable', 'Stressed', 'Unweighted Frequency', 'Weighted Frequency']]
     
     return syllabary
 

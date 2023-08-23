@@ -34,10 +34,6 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-#Binomial Regression
-model_binom = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), family=sm.families.Binomial()).fit()
-print(model_binom.summary())
-
 #Poisson Regression
 model_poisson = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), family=sm.families.Poisson()).fit()
 print(model_poisson.summary())
@@ -56,6 +52,20 @@ k = df['Token Frequency'].iloc[0]  # Take the frequency of the most frequent wor
 df['Zipf Frequency'] = k / df['Rank']
 plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Zipf's Law")
 
+# Q-Q and residual plots
+
+plt.figure(figsize=(8, 6))
+sm.qqplot(model.resid, line='45', fit=True)
+plt.title('Q-Q Plot of Residuals')
+plt.show()
+
+plt.figure(figsize=(8, 6))
+plt.scatter(model.predict(), model.resid)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('Residual Plot')
+plt.xlabel('Predicted values')
+plt.ylabel('Residuals')
+plt.show()
 
 # spearman correlation between zipf and actual values
 frequency = df_sorted['Token Frequency'].values
@@ -76,7 +86,6 @@ plt.xscale('log')
 plt.yscale('log')
 plt.grid(True, which="both", ls="--", c='0.65')
 plt.show()
-
 
 #compare poisson v/s negbinom
 

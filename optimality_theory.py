@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
 from scipy.stats import chi2
-
+from scipy.stats import spearmanr
 
 df = pd.read_excel('FinnishSyllabary1.xlsx', engine='openpyxl')
 
@@ -45,6 +45,9 @@ plt.scatter(ranks, df_sorted['Token Frequency'], color='green')
 k = df['Token Frequency'].iloc[0]  # Take the frequency of the most frequent word as k
 df['Zipf Frequency'] = k / df['Rank']
 plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Zipf's Law")
+
+correlation, _ = spearmanr(df_sorted['Token Frequency'], df['Zipf Frequency'])
+print(correlation)
 
 plt.title("Zipfs Law correlation")
 plt.xlabel('Rank')

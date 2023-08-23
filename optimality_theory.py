@@ -83,7 +83,7 @@ plt.figure(figsize=(10, 6))
 plt.title("Frequency vs. Frequency Rank")
 plt.xlabel('Frequency Rank')
 plt.ylabel('Frequency)')
-plt.plot(df['Frequency Rank'], df['Zipf Frequency'], 'r--', label="Closely follows Zipf's Law")
+plt.plot(df['Frequency'], df['Zipf Frequency'], 'r--', label="Closely follows Zipf's Law")
 
 #spearman
 

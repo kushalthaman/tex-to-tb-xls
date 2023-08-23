@@ -39,7 +39,7 @@ model_poisson = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), famil
 print(model_poisson.summary())
 
 #Negbinom Regression
-model_nb = sm.GLM(df['Token Frequency'], X_poisson, family=sm.families.NegativeBinomial()).fit()
+model_nb = sm.GLM(df['Token Frequency'], model_poisson, family=sm.families.NegativeBinomial()).fit()
 print(model_nb.summary())
 
 #Correlation 

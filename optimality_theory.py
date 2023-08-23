@@ -53,3 +53,15 @@ plt.xscale('log')
 plt.yscale('log')
 plt.grid(True, which="both", ls="--", c='0.65')
 plt.show()
+
+
+#compare poisson v/s negbinom
+
+formula = "Q('Token Frequency') ~ Onset + Coda + Q('Complex Onset') + Q('Complex Coda') + Template"
+poisson_model = smf.glm(formula, data=data, family=sm.families.Poisson()).fit()
+nb_model = smf.glm(formula, data=data, family=sm.families.NegativeBinomial(alpha=0.6762968626)).fit()
+lr_stat = -2*(poisson_model.llf - nb_model.llf)
+p_value = chi2.sf(lr_stat, df=1)
+print(f"Likelihood Ratio Statistic: {lr_stat}")
+print(f"P-Value: {p_value}")
+

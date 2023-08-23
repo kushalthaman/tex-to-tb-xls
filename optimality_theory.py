@@ -38,6 +38,12 @@ df_sorted = df.sort_values(by="Token Frequency", ascending=False)
 ranks = np.arange(1, len(df_sorted) + 1)
 plt.figure(figsize=(10, 6))
 plt.scatter(ranks, df_sorted['Token Frequency'], color='green')
+
+k = df['Token Frequency'].max()
+x_vals = np.arange(1, len(df) + 1)
+y_vals = k / x_vals
+plt.plot(x_vals, y_vals, '--', color='red', label="Zipf's Line")
+
 plt.title("Zipfs Law correlation")
 plt.xlabel('Rank')
 plt.ylabel('Token Frequency')

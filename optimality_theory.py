@@ -78,31 +78,18 @@ plt.scatter(ranks, df_sorted['Token Frequency'], color='green')
 k = df['Token Frequency'].iloc[0]  # Take the frequency of the most frequent word as k
 df['Zipf Frequency'] = k / df['Rank']
 
-
-plt.figure(figsize=(10, 6)))
-plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Closely follows Zipf's Law")
-plt.show()
-
-#spearman
-
-df['Zipf Frequency'] = df['Token Frequency'].iloc[0] / df['Rank']
-
-correlation, _ = spearmanr(df['Token Frequency'], df['Zipf Frequency'])
-print(f"Spearman correlation between actual frequencies and Zipf's prediction: {correlation:.4f}")
-
 plt.figure(figsize=(10, 6))
 plt.scatter(df['Rank'], df['Token Frequency'], color='blue', label='Observed Frequencies')
-plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Zipf's Law")
+plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Closely follows Zipf's Law")
 plt.xscale('log')
 plt.yscale('log')
-plt.title("Frequency vs. Rank")
+plt.title("Frequency vs. AA Rank")
 plt.xlabel('Rank')
 plt.ylabel('Token Frequency')
 plt.grid(True, which="both", ls="--", c='0.65')
 plt.legend()
+
 plt.show()
-
-
 
 # Q-Q and residual plots
 

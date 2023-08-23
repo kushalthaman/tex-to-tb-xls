@@ -12,23 +12,20 @@ df = pd.read_excel('FinnishSyllabary1.xlsx', engine='openpyxl')
 df = df.sort_values(by='Token Frequency', ascending=False)
 df['Rank'] = range(1, len(df) + 1)
 
-log_ranks = np.log(df['Rank'])
-log_token_frequencies = np.log(df['Token Frequency'])
-
-log_freq = np.log(df['Token Frequency'])
-log_rank = np.log(df['Rank'])
-slope, intercept, r_value, p_value, std_err = linregress(log_rank, log_freq)
-best_fit = slope * float(log_rank) + intercept
-plt.figure(figsize=(10,6))
-plt.loglog(df['Rank'], df['Token Frequency'], 'o', label='Data')
-plt.loglog(df['Rank'], np.exp(best_fit), 'r', label=f'Best Fit: y = {np.exp(intercept):.3f} * x^{slope:.3f}')
-plt.loglog(df['Rank'], np.exp(intercept) * df['Rank']**-1, 'g', label="Zipf's law: y = k * x^-1")
-plt.xlabel('Rank')
-plt.ylabel('Token Frequency')
-plt.title('Log-Log Plot of Token Frequency vs Rank')
+##Linear Regression
+X_lin = sm.add_constant(log_ranks)   
+model_lin = sm.OLS(log_token_frequencies, X_lin).fit()
+print(model_lin.summary())
+plt.figure(figsize=(10, 6))
+plt.scatter(log_ranks, log_token_frequencies, color='blue', label="Data")
+plt.plot(log_ranks, model_lin.predict(X_lin), color='red', label="Linear Regression")
+plt.title('Linear Regression on Token Frequency for Finnish')
+plt.xlabel('Log Rank')
+plt.ylabel('Log Token Frequency')
 plt.legend()
-plt.grid(True, which="both", ls="--", linewidth=0.5)
+plt.grid(True)
 plt.show()
+
 
 #Binomial Regression
 model_binom = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), family=sm.families.Binomial()).fit()

@@ -42,6 +42,10 @@ print(model_binom.summary())
 model_poisson = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), family=sm.families.Poisson()).fit()
 print(model_poisson.summary())
 
+#Negbinom Regression
+model_nb = sm.GLM(df['Token Frequency'], X_poisson, family=sm.families.NegativeBinomial()).fit()
+print(model_nb.summary())
+
 #Correlation 
 df_sorted = df.sort_values(by="Token Frequency", ascending=False)
 ranks = np.arange(1, len(df_sorted) + 1)
@@ -77,9 +81,7 @@ plt.show()
 #compare poisson v/s negbinom
 
 formula = "Q('Token Frequency') ~ Onset + Coda + Q('Complex Onset') + Q('Complex Coda') + Template"
-poisson_model = smf.glm(formula, data = df, family=sm.families.Poisson()).fit()
-nb_model = smf.glm(formula, data=df, family=sm.families.NegativeBinomial(alpha=0.6762968626)).fit()
-lr_stat = -2*(poisson_model.llf - nb_model.llf)
+lr_stat = -2*(model_poisson.llf - model_nb.llf)
 p_value = chi2.sf(lr_stat, df=1)
 print(f"Likelihood Ratio Statistic: {lr_stat}")
 print(f"P-Value: {p_value}")

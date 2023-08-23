@@ -74,6 +74,25 @@ plt.yscale('log')
 plt.grid(True, which="both", ls="--", c='0.65')
 plt.show()
 
+
+
+# Q-Q and residual plots
+
+plt.figure(figsize=(8, 6))
+sm.qqplot(model_nb.resid, line='45', fit=True)
+plt.title('Q-Q Plot of Residuals')
+plt.show()
+
+plt.figure(figsize=(8, 6))
+plt.scatter(model_nb.predict(), model_nb.resid)
+plt.axhline(y=0, color='r', linestyle='-')
+plt.title('Residual Plot')
+plt.xlabel('Predicted values')
+plt.ylabel('Residuals')
+plt.show()
+
+
+
 #compare poisson v/s negbinom
 
 formula = "Q('Token Frequency') ~ Onset + Coda + Q('Complex Onset') + Q('Complex Coda') + Template"

@@ -16,14 +16,14 @@ log_ranks = np.log(df['Rank'])
 log_token_frequencies = np.log(df['Token Frequency'])
 ##############################
 # Sort by frequency and reset index
-df = df.sort_values(by='Unweighted Frequency', ascending=False).reset_index(drop=True)
+df = df.sort_values(by='Token Frequency', ascending=False).reset_index(drop=True)
 
 # Assign ranks
 df['Rank'] = df.index + 1
 
 # Get log values
 df['Log Rank'] = np.log(df['Rank'])
-df['Log Frequency'] = np.log(df['Unweighted Frequency'])
+df['Log Frequency'] = np.log(df['Token Frequency'])
 X = sm.add_constant(df['Log Rank'])
 model = sm.OLS(df['Log Frequency'], X).fit()
 

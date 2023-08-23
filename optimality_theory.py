@@ -11,6 +11,7 @@ df = pd.read_excel('FinnishSyllabary1.xlsx', engine='openpyxl')
 
 df = df.sort_values(by='Token Frequency', ascending=False)
 df['Rank'] = range(1, len(df) + 1)
+df = df[df['Token Frequency'] > 0]
 log_ranks = np.log(df['Rank'])
 log_token_frequencies = np.log(df['Token Frequency'])
 

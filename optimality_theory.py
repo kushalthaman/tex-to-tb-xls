@@ -46,8 +46,18 @@ k = df['Token Frequency'].iloc[0]  # Take the frequency of the most frequent wor
 df['Zipf Frequency'] = k / df['Rank']
 plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Zipf's Law")
 
-correlation, _ = spearmanr(df_sorted['Token Frequency'], df['Zipf Frequency'])
-print(correlation)
+
+# spearman correlation between zipf and actual values
+frequency = df_sorted['Token Frequency'].values
+rank = df_sorted.index + 1
+df_sorted['Zipf Frequency'] = frequency[0] / rank
+non_zero_mask = frequency > 0
+rank_non_zero = rank[non_zero_mask]
+frequency_non_zero = frequency[non_zero_mask]
+zipf_frequency_non_zero = df_sorted['Zipf Frequency'][non_zero_mask].values
+correlation, _ = spearmanr(frequency_non_zero, zipf_frequency_non_zero)
+
+print(f"Spearman correlation: {correlation:.4f}")
 
 plt.title("Zipfs Law correlation")
 plt.xlabel('Rank')

@@ -14,7 +14,33 @@ df['Rank'] = range(1, len(df) + 1)
 df = df[df['Token Frequency'] > 0]
 log_ranks = np.log(df['Rank'])
 log_token_frequencies = np.log(df['Token Frequency'])
+##############################
+# Sort by frequency and reset index
+df = df.sort_values(by='Unweighted Frequency', ascending=False).reset_index(drop=True)
 
+# Assign ranks
+df['Rank'] = df.index + 1
+
+# Get log values
+df['Log Rank'] = np.log(df['Rank'])
+df['Log Frequency'] = np.log(df['Unweighted Frequency'])
+X = sm.add_constant(df['Log Rank'])
+model = sm.OLS(df['Log Frequency'], X).fit()
+
+# Adjust intercept to make the line pass through the first data point
+slope = model.params[1]
+intercept = df['Log Frequency'].iloc[0] - slope * df['Log Rank'].iloc[0]
+plt.figure(figsize=(10, 6))
+plt.scatter(df['Log Rank'], df['Log Frequency'], color='blue', label='Data')
+plt.plot(df['Log Rank'], intercept + slope * df['Log Rank'], 'g--', label=f"Adjusted regression line: y = {slope:.2f}x + {intercept:.2f}")
+plt.xlabel('Log Rank')
+plt.ylabel('Log Frequency')
+plt.title("Zipf's Law: Frequency vs. Frequency Rank")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+##############################
 ##Linear Regression
 X_lin = sm.add_constant(log_ranks)   
 model_lin = sm.OLS(log_token_frequencies, X_lin).fit()

@@ -18,7 +18,7 @@ log_token_frequencies = np.log(df['Token Frequency'])
 log_freq = np.log(df['Token Frequency'])
 log_rank = np.log(df['Rank'])
 slope, intercept, r_value, p_value, std_err = linregress(log_rank, log_freq)
-best_fit = slope * log_rank + intercept
+best_fit = slope * float(log_rank) + intercept
 plt.figure(figsize=(10,6))
 plt.loglog(df['Rank'], df['Token Frequency'], 'o', label='Data')
 plt.loglog(df['Rank'], np.exp(best_fit), 'r', label=f'Best Fit: y = {np.exp(intercept):.3f} * x^{slope:.3f}')

@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_excel('data.xlsx', engine='openpyxl')
+df = pd.read_excel('FinnishTemplateTable1.xlsx', engine='openpyxl')
 df = df.sort_values(by='Token Frequency', ascending=False)
 df['Rank'] = range(1, len(df) + 1)
 log_ranks = np.log(df['Rank'])

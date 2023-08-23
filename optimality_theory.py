@@ -1,48 +1,41 @@
-# Plot of text frequencies of syllables with simple v/s complex margins
-
-# Onsets and codas in syllables with simple margins (plotted with log frequency)
-
-
-
-# Linear, binomial and poisson regression 
-
-# Likelihood ratio testing
-
-# Correlation with zipfian distribution
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import statsmodels.api as sm
 
 # Load the data from the Excel file
-df = pd.read_excel('FinnishTemplateTable1.xlsx', engine='openpyxl')
+df = pd.read_excel('data.xlsx', engine='openpyxl')
 
-# Sort by Type Frequency in descending order
-df = df.sort_values(by='Type Frequency', ascending=False)
-
-# Create ranks
+# Sort by Token Frequency in descending order and create ranks
+df = df.sort_values(by='Token Frequency', ascending=False)
 df['Rank'] = range(1, len(df) + 1)
 
-# Log transform
+# Log transform for linear regression
 log_ranks = np.log(df['Rank'])
-log_frequencies = np.log(df['Type Frequency'])
+log_frequencies = np.log(df['Token Frequency'])
 
-# Linear regression
-slope, intercept = np.polyfit(log_ranks, log_frequencies, 1)
+# 1. Linear Regression
+X_lin = sm.add_constant(log_ranks) # adding a constant (intercept)
+model_lin = sm.OLS(log_frequencies, X_lin).fit()
+print(model_lin.summary())
 
-# Plotting
+# Plotting linear regression
 plt.figure(figsize=(10, 6))
 plt.scatter(log_ranks, log_frequencies, color='blue', label="Data")
-plt.plot(log_ranks, slope * log_ranks + intercept, color='red', label=f"Fit: y = {slope:.2f}x + {intercept:.2f}")
-plt.title('Zipff Law Check')
+plt.plot(log_ranks, model_lin.predict(X_lin), color='red', label="Linear Regression")
+plt.title('Linear Regression')
 plt.xlabel('Log Rank')
-plt.ylabel('Log Frequency')
+plt.ylabel('Log Token Frequency')
 plt.legend()
 plt.grid(True)
 plt.show()
 
-print(f"Slope of the fit: {slope:.4f}")
+# 2. Binomial Regression
+# Note: This might not be appropriate as binomial regression assumes a binary outcome.
+# We're using it here purely for demonstration purposes.
+model_binom = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), family=sm.families.Binomial()).fit()
+print(model_binom.summary())
 
-if -1.1 < slope < -0.9:
-    print("The data follows Zipf's law.")
-else:
-    print("The data does not follow Zipf's law closely.")
+# 3. Poisson Regression
+model_poisson = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), family=sm.families.Poisson()).fit()
+print(model_poisson.summary())

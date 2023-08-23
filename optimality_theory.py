@@ -32,4 +32,16 @@ print(model_binom.summary())
 #Poisson Regression
 model_poisson = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), family=sm.families.Poisson()).fit()
 print(model_poisson.summary())
- 
+
+#Correlation 
+df_sorted = df.sort_values(by="Token Frequency", ascending=False)
+ranks = np.arange(1, len(df_sorted) + 1)
+plt.figure(figsize=(10, 6))
+plt.scatter(ranks, df_sorted['Token Frequency'], color='green')
+plt.title("Zipfs Law correlation")
+plt.xlabel('Rank')
+plt.ylabel('Token Frequency')
+plt.xscale('log')
+plt.yscale('log')
+plt.grid(True, which="both", ls="--", c='0.65')
+plt.show()

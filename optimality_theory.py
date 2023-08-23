@@ -14,7 +14,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the data from the Excel file
-df = pd.read_excel('data.xlsx', engine='openpyxl')
+df = pd.read_excel('FinnishTemplateTable1.xlsx', engine='openpyxl')
 
 # Sort by Type Frequency in descending order
 df = df.sort_values(by='Type Frequency', ascending=False)

@@ -26,7 +26,7 @@ equation_str = f"y = {intercept:.3f} + {slope:.3f}x"
 plt.figure(figsize=(10, 6))
 plt.scatter(log_ranks, log_token_frequencies, color='blue', label="Data")
 plt.plot(log_ranks, model_lin.predict(X_lin), color='red', label=f"Linear Regression: {equation_str}")
-plt.plot(log_ranks, intercept + np.ones_like(log_ranks), color='green', linestyle='--', label="Zipf's Law: y = K/x")
+plt.plot(log_ranks, intercept - log_ranks, color='green', linestyle='--', label="Zipf's Law: y = K/x")
 plt.title('Linear Regression on Token Frequency for Finnish')
 plt.xlabel('Log Rank')
 plt.ylabel('Log Token Frequency')

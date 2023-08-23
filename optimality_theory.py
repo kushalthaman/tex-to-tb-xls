@@ -19,8 +19,7 @@ log_token_frequencies = np.log(df['Token Frequency'])
 X_lin = sm.add_constant(log_ranks)   
 model_lin = sm.OLS(log_token_frequencies, X_lin).fit()
 slope = model_lin.params[1]
-intercept = model_lin.params[0]
-
+intercept = 13.6
 equation_str = f"y = {intercept:.3f} + {slope:.3f}x"
 
 plt.figure(figsize=(10, 6))

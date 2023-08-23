@@ -76,12 +76,10 @@ print(model_nb.summary())
 ##12341231#######12341231#######12341231#######12341231#######12341231#######12341231#######12341231#######12341231#######12341231#####
 plt.figure(figsize=(10, 6))
 
-plt.scatter(ranks, df_sorted['Token Frequency'], color='green', label='Sorted Frequencies')
-
-k = df['Token Frequency'].iloc[0]   
+plt.scatter(df['Rank'], df['Token Frequency'], color='green', label='Observed Frequencies')
+k = df['Token Frequency'].iloc[0]  # Take the frequency of the most frequent word as k
 df['Zipf Frequency'] = k / df['Rank']
 plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Closely follows Zipf's Law")
-
 plt.xscale('log')
 plt.yscale('log')
 plt.title("Frequency vs. Rank")
@@ -89,8 +87,8 @@ plt.xlabel('Rank')
 plt.ylabel('Token Frequency')
 plt.grid(True, which="both", ls="--", c='0.65')
 plt.legend()
-
 plt.show()
+
 ##12341231#######12341231#######12341231#######12341231#######12341231#######12341231#######12341231#######12341231#####
 
 #spearman

@@ -39,10 +39,9 @@ ranks = np.arange(1, len(df_sorted) + 1)
 plt.figure(figsize=(10, 6))
 plt.scatter(ranks, df_sorted['Token Frequency'], color='green')
 
-k = df['Token Frequency'].max()
-x_vals = np.arange(1, len(df) + 1)
-y_vals = k / x_vals
-plt.plot(x_vals, y_vals, '--', color='red', label="Zipf's Line")
+k = df['Token Frequency'].iloc[0]  # Take the frequency of the most frequent word as k
+df['Zipf Frequency'] = k / df['Rank']
+plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Zipf's Law")
 
 plt.title("Zipfs Law correlation")
 plt.xlabel('Rank')

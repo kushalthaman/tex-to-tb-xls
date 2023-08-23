@@ -34,12 +34,14 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+print(model_lin.summary())
+
 #Poisson Regression
 model_poisson = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), family=sm.families.Poisson()).fit()
 print(model_poisson.summary())
 
 #Negbinom Regression
-model_nb = sm.GLM(df['Token Frequency'], model_poisson, family=sm.families.NegativeBinomial()).fit()
+model_nb = sm.GLM(df['Token Frequency'], sm.add_constant(df['Rank']), family=sm.families.NegativeBinomial()).fit()
 print(model_nb.summary())
 
 #Correlation 

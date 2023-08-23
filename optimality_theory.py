@@ -54,20 +54,6 @@ k = df['Token Frequency'].iloc[0]  # Take the frequency of the most frequent wor
 df['Zipf Frequency'] = k / df['Rank']
 plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Zipf's Law")
 
-# Q-Q and residual plots
-
-plt.figure(figsize=(8, 6))
-sm.qqplot(model.resid, line='45', fit=True)
-plt.title('Q-Q Plot of Residuals')
-plt.show()
-
-plt.figure(figsize=(8, 6))
-plt.scatter(model.predict(), model.resid)
-plt.axhline(y=0, color='r', linestyle='-')
-plt.title('Residual Plot')
-plt.xlabel('Predicted values')
-plt.ylabel('Residuals')
-plt.show()
 
 # spearman correlation between zipf and actual values
 frequency = df_sorted['Token Frequency'].values

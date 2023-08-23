@@ -79,11 +79,9 @@ k = df['Token Frequency'].iloc[0]  # Take the frequency of the most frequent wor
 df['Zipf Frequency'] = k / df['Rank']
 
 
-plt.figure(figsize=(10, 6))
-plt.title("Frequency vs. Frequency Rank")
-plt.xlabel('Frequency Rank')
-plt.ylabel('Frequency)')
-plt.plot(df['Frequency'], df['Zipf Frequency'], 'r--', label="Closely follows Zipf's Law")
+plt.figure(figsize=(10, 6)))
+plt.plot(df['Rank'], df['Zipf Frequency'], 'r--', label="Closely follows Zipf's Law")
+plt.show()
 
 #spearman
 

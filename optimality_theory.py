@@ -12,7 +12,7 @@ df = pd.read_excel('FinnishSyllabary1.xlsx', engine='openpyxl')
 df = df.sort_values(by='Token Frequency', ascending=False)
 df['Rank'] = range(1, len(df) + 1)
 log_ranks = np.log(df['Rank'])
-log_frequencies = np.log(df['Token Frequency'])
+log_token_frequencies = np.log(df['Token Frequency'])
 
 ##Linear Regression
 X_lin = sm.add_constant(log_ranks)   

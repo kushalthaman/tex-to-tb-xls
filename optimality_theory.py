@@ -2,6 +2,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
+import statsmodels.formula.api as smf
+from scipy.stats import chi2
+
 
 df = pd.read_excel('FinnishSyllabary1.xlsx', engine='openpyxl')
 

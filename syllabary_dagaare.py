@@ -6,7 +6,7 @@ dipthongs = ["ie", "uo", "ɪɛ", "ʊɔ"]
 
 labials = "bpfvm"
 coronals = "tdnlrdzʧɲszyʣ" #weird that dz is sometimes ʣ
-dorsals = "kgŋ"
+dorsals = "kgɡŋ"
 glottals = "h"
 doubles = "kpgbŋmw"
 
@@ -353,6 +353,30 @@ def back(vowel):
     if vowel == "" or "a" in vowel:
         return ""
     return vowel in back_vowels
+
+def print_dors_counts(syllabary):
+    kvvt = 0
+    tvvk = 0
+    tvk = 0
+    kvt = 0
+    templates = syllabary['Template'].astype(str)
+    onset_places = syllabary['Place-Ons'].astype(str)
+    coda_places = syllabary['Place-Coda'].astype(str)
+    type_freqs = syllabary['Type Frequency'].astype(int)
+
+    for onset_place, coda_place, template, type_freq in zip(onset_places, coda_places, templates, type_freqs):
+        if onset_place == 'Dorsal':
+            if 'CVVC' in template:
+                kvvt += type_freq
+            elif 'CVC' in template:
+                kvt += type_freq
+        if coda_place == 'Dorsal':
+            if 'CVVC' in template:
+                tvvk += type_freq
+            elif 'CVC' in template:
+                tvk += type_freq
+    
+    print('kvvt: ' + str(kvvt) + ', tvvk: ' + str(tvvk) + ', kvt: ' + str(kvt) + ', tvk: ' + str(tvk))
     
 
 df = pd.read_excel("DagaareDict.xlsx")
@@ -387,4 +411,5 @@ syllabary['High'] = syllabary['Vowel'].apply(height_high)
 syllabary['Low'] = syllabary['Vowel'].apply(height_low)
 syllabary['Back'] = syllabary['Vowel'].apply(back)
 
+print_dors_counts(syllabary)
 syllabary.to_excel("DagaareSyllabary.xlsx", index=False)
